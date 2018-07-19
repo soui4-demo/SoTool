@@ -17,6 +17,8 @@ else{
 	LIBS += utilities.lib soui.lib
 }
 
+INCLUDEPATH += $(SOUIPATH)/controls.extend
+
 PRECOMPILED_HEADER = stdafx.h
 
 # Input
