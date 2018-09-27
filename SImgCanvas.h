@@ -12,16 +12,18 @@ namespace SOUI
         BOOL AddFile(LPCWSTR pszFileName);
         void Clear();
 		BOOL Save2IconFile(LPCWSTR pszFileName);
+		void PushIconSize(int size);
         BOOL Save2File(LPCWSTR pszFileName,int nSplit=1);
         void SetVertical(BOOL bVert);		
 		bool IsCanSave() { return !m_lstImg.IsEmpty(); }
     protected:
         void OnPaint(IRenderTarget *pRT);
         
-        SOUI_MSG_MAP_BEGIN()
-            MSG_WM_PAINT_EX(OnPaint)
-        SOUI_MSG_MAP_END()
-        
+		SOUI_MSG_MAP_BEGIN()
+			MSG_WM_PAINT_EX(OnPaint)
+		SOUI_MSG_MAP_END()
+
+		SList<int>		m_size;
         BOOL            m_bVert;
         SList<IBitmap*> m_lstImg;
     };

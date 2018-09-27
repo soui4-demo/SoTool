@@ -68,7 +68,7 @@ namespace SOUI
         ::InflateRect(&rcWnd,-2,-2);
         HRGN hRgn2 = ::CreateRectRgnIndirect(&rcWnd);
         ::CombineRgn(hRgn,hRgn,hRgn2,RGN_DIFF);
-        ::CombineRgn(hRgn,hRgn,hRgnText,RGN_OR);
+        //::CombineRgn(hRgn,hRgn,hRgnText,RGN_OR);
         SetWindowRgn(hRgn,FALSE);
         ::DeleteObject(hRgnText);
         ::DeleteObject(hRgn);

@@ -60,6 +60,13 @@ void CImageMergerHandler::OnSaveToIco()
 	CFileDialogEx dlgSave(FALSE, _T("ico"), 0, 6, _T("ico files(*.ico)\0*.ico\0\0"));
 	if (dlgSave.DoModal() == IDOK)
 	{
+		m_pImgCanvas->PushIconSize(16);
+		m_pImgCanvas->PushIconSize(20);
+		m_pImgCanvas->PushIconSize(24);
+		m_pImgCanvas->PushIconSize(32);
+		m_pImgCanvas->PushIconSize(40);
+		m_pImgCanvas->PushIconSize(48);
+		m_pImgCanvas->PushIconSize(64);
 		m_pImgCanvas->Save2IconFile(S_CT2W(dlgSave.m_szFileName));
 	}
 }

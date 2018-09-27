@@ -86,13 +86,35 @@ namespace SOUI
 	BOOL SImgCanvas::Save2IconFile(LPCWSTR pszFileName)
 	{
 		CRGBA2ICON iconfile;
-		SPOSITION pos = m_lstImg.GetHeadPosition();
-		while (pos)
+		if (m_size.GetCount() && m_lstImg.GetCount() == 1)
 		{
-			IBitmap* pBmp = m_lstImg.GetNext(pos);
-			iconfile.AddBitmapToIco(pBmp);
-		}		
+			
+			SPOSITION pos = m_size.GetHeadPosition();			
+			while (pos)
+			{
+				IBitmap *_bitmap=NULL;				
+				int pBmpSize = m_size.GetNext(pos);
+				m_lstImg.GetHead()->Scale(&_bitmap,pBmpSize, pBmpSize, FilterLevel::kHigh_FilterLevel);
+				iconfile.AddBitmapToIco(_bitmap);
+			}
+		}
+		else
+		{
+			SPOSITION pos = m_lstImg.GetHeadPosition();
+			while (pos)
+			{
+				IBitmap* pBmp = m_lstImg.GetNext(pos);
+				iconfile.AddBitmapToIco(pBmp);
+			}
+		}
 		return iconfile.SaveIconFile(pszFileName);
+	}
+
+	void SImgCanvas::PushIconSize(int size)
+	{
+		if (m_size.Find(size))
+			return;
+		m_size.AddTail(size);
 	}
 
     BOOL SImgCanvas::Save2File(LPCWSTR pszFileName,int nSplit)

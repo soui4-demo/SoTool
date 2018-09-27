@@ -102,6 +102,19 @@ public:
 	}
 	void AddBitmapToIco(IBitmap *pBitmap)
 	{
+		pBitmap->AddRef();
 		m_pBitmapList.Add(pBitmap);
+	}
+	void RemoveAllBitmap()
+	{
+		for (int i = 0; i < m_pBitmapList.GetCount(); i++)
+		{
+			m_pBitmapList[i]->Release();
+		}
+		m_pBitmapList.RemoveAll();
+	}
+	~CRGBA2ICON()
+	{
+		RemoveAllBitmap();
 	}
 };
