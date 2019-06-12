@@ -100,7 +100,7 @@ namespace SOUI
         return TRUE;
     }
 
-    void SMCTreeCtrl::DrawItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem)
+    void SMCTreeCtrl::DrawItem(IRenderTarget *pRT,const CRect & rc, HSTREEITEM hItem)
     {
         CRect rcTreeItem = rc;
         rcTreeItem.right = rcTreeItem.left + m_nTreeWidth;

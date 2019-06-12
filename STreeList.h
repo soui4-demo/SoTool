@@ -29,7 +29,7 @@ namespace SOUI
 
         HSTREEITEM InsertItem(LPCTSTR pszText,int iImage,int iSelImage,LPARAM lParam,HSTREEITEM hParent=STVI_ROOT,HSTREEITEM hAfter = STVI_LAST,BOOL bEnsureVisible=FALSE);
     protected:
-        virtual void DrawItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem);
+        virtual void DrawItem(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem);
         virtual void DrawTreeItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
         virtual void DrawListItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
         
