@@ -20,7 +20,7 @@ void C2UnicodeHandler::OnInit( SWindow *pPageRoot )
     SStringT strSyntax = SApplication::getSingleton().GetAppDir() + _T("\\syntax.xml");
     if(!xmlCodeSyntax.load_file(strSyntax))
     {
-        LOADXML(xmlCodeSyntax,_T("syntax"),_T("xml"));
+        LOADXML(xmlCodeSyntax,_T("xml:syntax"));
     }
     InitLang(xmlCodeSyntax.child(L"config").child(L"languages"));
 }
