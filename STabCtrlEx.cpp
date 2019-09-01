@@ -54,7 +54,7 @@ namespace SOUI
 				rcSplit = rcItem;
 				rcSplit.top = rcItemPrev.bottom;
 				rcSplit.bottom = rcSplit.top + m_nTabInterSize;
-				m_pSkinTabInter->Draw(pRT, rcSplit, 0);
+				m_pSkinTabInter->DrawByIndex(pRT, rcSplit, 0);
 			}
 
 			DrawItem(pRT, rcItem, i, dwState);
@@ -65,7 +65,7 @@ namespace SOUI
 		if (m_pSkinFrame)
 		{
 			CRect rcPage = GetChildrenLayoutRect();
-			m_pSkinFrame->Draw(pRT, rcPage, WndState_Normal);
+			m_pSkinFrame->DrawByState(pRT, rcPage, WndState_Normal);
 		}
 
 		if (IsFocused() && IsFocusable() && m_bDrawFocusRect)
@@ -413,13 +413,13 @@ namespace SOUI
 	void STabCtrlEx::DrawItem(IRenderTarget *pRT, const CRect &rcItem, int iItem, DWORD dwState)
 	{
 		if (rcItem.IsRectEmpty()) return;
-		int iState = IIF_STATE3(dwState, WndState_Normal, WndState_Hover, WndState_PushDown);
+		
 		if (m_pSkinTab)
-			m_pSkinTab->Draw(pRT, rcItem, iState);
-
+			m_pSkinTab->DrawByState(pRT, rcItem, dwState);
+		//int iState = IIF_STATE3(dwState, WndState_Normal, WndState_Hover, WndState_PushDown);
 		//根据状态从style中获得字体，颜色
-		IFontPtr font = m_style.GetTextFont(iState);
-		COLORREF crTxt = m_style.GetTextColor(iState);
+		IFontPtr font = m_style.GetTextFont(0);
+		COLORREF crTxt = m_style.GetTextColor(0);
 		CAutoRefPtr<IFont> oldFont;
 		if (font) pRT->SelectObject(font, (IRenderObj**)&oldFont);
 		COLORREF crOld = 0;
@@ -432,7 +432,7 @@ namespace SOUI
 			rcIcon.bottom = rcIcon.top + m_pSkinIcon->GetSkinSize().cy;
 			int iIcon = GetItem(iItem)->GetIconIndex();
 			if (iIcon == -1) iIcon = iItem;
-			m_pSkinIcon->Draw(pRT, rcIcon, iIcon);
+			m_pSkinIcon->DrawByIndex(pRT, rcIcon, iIcon);
 		}
 		LPCTSTR strTitle= GetItem(iItem)->GetTitle();
 		if (m_ptText.x != -1 && m_ptText.y != -1)
@@ -537,7 +537,7 @@ namespace SOUI
 		for (int i = 0; i < m_lstPages.GetCount(); i++)
 		{
 			pLastPage = m_lstPages[i];
-			itemsize = m_lstPages[i]->GetDesiredSize(rcPage);
+			itemsize = m_lstPages[i]->GetDesiredSize(rcPage.Width(),rcPage.Height());
 			m_lstPages[i]->SetHeight(itemsize.cy);
 		}
 		//最后一页内容太少

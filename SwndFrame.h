@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include <core/SimpleWnd.h>
+#include <core/SNativeWnd.h>
 
 namespace SOUI
 {
-    class SwndFrame : public CSimpleWnd
+    class SwndFrame : public SNativeWnd
     {
     public:
         SwndFrame(void);

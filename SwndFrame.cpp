@@ -28,7 +28,7 @@ namespace SOUI
 
     BOOL SwndFrame::Create(HWND hOwner)
     {
-        HWND hWnd=CSimpleWnd::Create(_T("SwndFrame"),WS_POPUP,WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE|WS_EX_TRANSPARENT,0,0,0,0,0,0);
+        HWND hWnd=SNativeWnd::Create(_T("SwndFrame"),WS_POPUP,WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE|WS_EX_TRANSPARENT,0,0,0,0,0,0);
         return hWnd!=0;
     }
 

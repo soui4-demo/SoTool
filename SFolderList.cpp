@@ -103,7 +103,7 @@ namespace SOUI
         if (hItem == m_hSelItem)
         {
             if (m_pItemSelSkin != NULL)
-                m_pItemSelSkin->Draw(pRT, rcItemBg, 0);
+                m_pItemSelSkin->DrawByIndex(pRT, rcItemBg, 0);
             else if (CR_INVALID != m_crItemSelBg)
                 pRT->FillSolidRect(rcItemBg, m_crItemSelBg);
 
@@ -127,7 +127,7 @@ namespace SOUI
         {
             int nImage = IIF_STATE3(pItem->dwToggleState, 0, 1, 2);
             if (!pItem->bCollapsed) nImage += 3;
-            m_pToggleSkin->Draw(pRT, m_rcToggle, nImage);
+            m_pToggleSkin->DrawByIndex(pRT, m_rcToggle, nImage);
         }
 
         if (STVIMask_CheckBox == (m_uItemMask & STVIMask_CheckBox))
@@ -137,7 +137,7 @@ namespace SOUI
                 nImage += 3;
             else if (pItem->nCheckBoxValue == STVICheckBox_PartChecked)
                 nImage += 6;
-            m_pCheckSkin->Draw(pRT, m_rcCheckBox, nImage);
+            m_pCheckSkin->DrawByIndex(pRT, m_rcCheckBox, nImage);
         }
 
         if (STVIMask_Icon == (m_uItemMask & STVIMask_Icon) &&
@@ -235,7 +235,7 @@ namespace SOUI
         rcItem.right = rcItem.left + m_arrColWidth[1];
         
         rcItem.DeflateRect(0,2,0,2);
-        m_pSkinPerBkgnd->Draw(pRT,rcItem,0);
+        m_pSkinPerBkgnd->DrawByIndex(pRT,rcItem,0);
         if(pFi->percent<0.0)
         {
             strTxt = _T("...");
@@ -244,7 +244,7 @@ namespace SOUI
         {
             CRect rcPercent = rcItem;
             rcPercent.right = rcItem.left + rcItem.Width()*pFi->percent/100;
-            m_pSkinPerFrgnd->Draw(pRT,rcPercent,0);
+            m_pSkinPerFrgnd->DrawByIndex(pRT,rcPercent,0);
             strTxt.Format(_T("%.1f%%"),pFi->percent);
             pRT->DrawText(strTxt,strTxt.GetLength(),&rcItem,DT_SINGLELINE|DT_VCENTER|DT_CENTER);
         }

@@ -100,7 +100,7 @@ void CFolderHander::OnBtnFileTypes(EventArgs *pEvt)
     ::ClientToScreen(hWnd,(LPPOINT)&rcBtn+1);
 
     SMenu menu;
-    menu.LoadMenu(_T("menu_filetype"),_T("xml"));
+    menu.LoadMenu(_T("xml:menu_filetype"));
     for(int i=0;i<(int)m_lstLangExts.GetCount();i++)
     {
         SStringW strDesc = m_lstLangExts[i].strLang+L":"+m_lstLangExts[i].strExts;
