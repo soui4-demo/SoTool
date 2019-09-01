@@ -8,7 +8,7 @@ CONFIG(x64){
 TARGET = $$TARGET"64"
 }
 
-include($$(SOUIPATH)/demo_com.pri)
+include($$(SOUI3PATH)/demo_com.pri)
 
 CONFIG(debug,debug|release){
 	LIBS += utilitiesd.lib souid.lib
@@ -17,7 +17,7 @@ else{
 	LIBS += utilities.lib soui.lib
 }
 
-INCLUDEPATH += $(SOUIPATH)/controls.extend
+INCLUDEPATH += $(SOUI3PATH)/controls.extend
 
 PRECOMPILED_HEADER = stdafx.h
 
