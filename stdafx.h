@@ -12,6 +12,7 @@
 #include <res.mgr/sobjdefattr.h>
 #include <com-cfg.h>
 #include <helper/SMenu.h>
+#include <helper/SMenuEx.h>
 #include <FileHelper.h>
 
 #include "resource.h"

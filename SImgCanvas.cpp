@@ -94,7 +94,7 @@ namespace SOUI
 			{
 				IBitmap *_bitmap=NULL;				
 				int pBmpSize = m_size.GetNext(pos);
-				m_lstImg.GetHead()->Scale(&_bitmap,pBmpSize, pBmpSize, FilterLevel::kHigh_FilterLevel);
+				m_lstImg.GetHead()->Scale(&_bitmap,pBmpSize, pBmpSize, kHigh_FilterLevel);
 				iconfile.AddBitmapToIco(_bitmap);
 			}
 		}

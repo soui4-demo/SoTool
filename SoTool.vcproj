@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin\"
-			IntermediateDirectory="..\..\obj\release\SoTool\"
+			OutputDirectory="release\"
+			IntermediateDirectory="release\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -44,10 +44,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
-				Optimization="1"
-				AdditionalIncludeDirectories=".,.,.,..\..\controls.extend,..\..\utilities\include,..\..\soui\include,..\..\components,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,NDEBUG"
+				AdditionalOptions="/MP"
+				Optimization="2"
+				AdditionalIncludeDirectories=".,.,$(SOUI3PATH)/utilities/include,$(SOUI3PATH)/soui/include,$(SOUI3PATH)/components,$(SOUI3PATH)/config,$(SOUI3PATH)/controls.extend,..\soui3\tools\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_NO_DYNAMIC_CAST,NDEBUG"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="0"
@@ -55,13 +55,12 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(IntDir)\SoTool.pch"
-				AssemblerListingLocation="..\..\obj\release\SoTool\"
-				ObjectFile="..\..\obj\release\SoTool\"
+				AssemblerListingLocation="release\"
+				ObjectFile="release\"
 				ProgramDataBaseFileName="$(IntDir)"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="3"
-				DisableSpecificWarnings="4100,4101,4102,4189,4996"
+				DebugInformationFormat="0"
 				ForcedIncludeFiles="stdafx.h"
 			/>
 			<Tool
@@ -69,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_NO_DYNAMIC_CAST"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -78,16 +77,14 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				AdditionalDependencies="utilities.lib soui.lib"
+				AdditionalDependencies="utilities.lib soui3.lib"
 				OutputFile="$(OutDir)\SoTool.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\bin"
-				GenerateDebugInformation="true"
+				AdditionalLibraryDirectories="$(SOUI3PATH)\bin"
+				GenerateDebugInformation="false"
 				ProgramDatabaseFile=""
 				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
 				TargetMachine="1"
 			/>
@@ -115,8 +112,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\bin\"
-			IntermediateDirectory="..\..\obj\debug\SoTool\"
+			OutputDirectory="debug\"
+			IntermediateDirectory="debug\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -142,24 +139,23 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP -w34100 -w34189 -w44996"
+				AdditionalOptions="/MP"
 				Optimization="4"
-				AdditionalIncludeDirectories=".,.,.,..\..\controls.extend,..\..\utilities\include,..\..\soui\include,..\..\components,..\..\config,..\..\tools\mkspecs\win32-msvc2008"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST"
+				AdditionalIncludeDirectories=".,.,$(SOUI3PATH)/utilities/include,$(SOUI3PATH)/soui/include,$(SOUI3PATH)/components,$(SOUI3PATH)/config,$(SOUI3PATH)/controls.extend,..\soui3\tools\mkspecs\win32-msvc2008"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_NO_DYNAMIC_CAST"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
 				RuntimeLibrary="1"
 				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="$(IntDir)\SoToold.pch"
-				AssemblerListingLocation="..\..\obj\debug\SoTool\"
-				ObjectFile="..\..\obj\debug\SoTool\"
+				PrecompiledHeaderFile="$(IntDir)\SoTool.pch"
+				AssemblerListingLocation="debug\"
+				ObjectFile="debug\"
 				ProgramDataBaseFileName="$(IntDir)"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4100,4101,4102,4189,4996"
 				ForcedIncludeFiles="stdafx.h"
 			/>
 			<Tool
@@ -167,7 +163,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,_CRT_SECURE_NO_WARNINGS,QT_NO_DYNAMIC_CAST,_DEBUG"
+				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_NO_DYNAMIC_CAST,_DEBUG"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -176,10 +172,10 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot;"
-				AdditionalDependencies="utilitiesd.lib souid.lib"
-				OutputFile="$(OutDir)\SoToold.exe"
+				AdditionalDependencies="utilitiesd.lib soui3d.lib"
+				OutputFile="$(OutDir)\SoTool.exe"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\bin"
+				AdditionalLibraryDirectories="$(SOUI3PATH)\bin"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=""
 				SubSystem="2"
@@ -234,7 +230,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CWindowHelperHander.cpp"
+				RelativePath="CWindowHelperHander.cpp"
 				>
 			</File>
 			<File
@@ -266,7 +262,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SCaptureButton.cpp"
+				RelativePath="SCaptureButton.cpp"
 				>
 			</File>
 			<File
@@ -286,7 +282,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\STabCtrlEx.cpp"
+				RelativePath="STabCtrlEx.cpp"
 				>
 			</File>
 			<File
@@ -294,7 +290,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SwndFrame.cpp"
+				RelativePath="SwndFrame.cpp"
 				>
 			</File>
 		</Filter>
@@ -320,11 +316,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CWindowHelperHander.h"
+				RelativePath="CWindowHelperHander.h"
+				>
+			</File>
+			<File
+				RelativePath="DragDrop.h"
 				>
 			</File>
 			<File
 				RelativePath="droptarget.h"
+				>
+			</File>
+			<File
+				RelativePath="export_table_adapter.h"
 				>
 			</File>
 			<File
@@ -348,6 +352,10 @@
 				>
 			</File>
 			<File
+				RelativePath="import_table_adapter.h"
+				>
+			</File>
+			<File
 				RelativePath="MainDlg.h"
 				>
 			</File>
@@ -360,7 +368,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SCaptureButton.h"
+				RelativePath="SCaptureButton.h"
 				>
 			</File>
 			<File
@@ -376,7 +384,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\STabCtrlEx.h"
+				RelativePath="STabCtrlEx.h"
 				>
 			</File>
 			<File
@@ -408,7 +416,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SwndFrame.h"
+				RelativePath="SwndFrame.h"
 				>
 			</File>
 		</Filter>
