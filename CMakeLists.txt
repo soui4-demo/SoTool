@@ -4,11 +4,11 @@
 
 cmake_minimum_required(VERSION 3.4.3)
 project(SoTool)
-file (TO_CMAKE_PATH "$ENV{SOUIPATH}" SOUI_ROOT)
+file (TO_CMAKE_PATH "$ENV{SOUI3PATH}" SOUI_ROOT)
 
 message(STATUS "SOUI_ROOT: ${SOUI_ROOT}")
 if ("${SOUI_ROOT}" STREQUAL "")
-	message(FATAL_ERROR "FATAL:can't find env variable SOUIPATH, clone soui core and install wizard first, please.")
+	message(FATAL_ERROR "FATAL:can't find env variable SOUI3PATH, clone soui core and install wizard first, please.")
 endif()
 
 include(${SOUI_ROOT}/__cmake/cotire.cmake)
@@ -52,11 +52,11 @@ add_executable(SoTool WIN32 ${CURRENT_HEADERS} ${CURRENT_SRCS} ${CURRENT_SOUIS} 
 #add_dependencies(SoTool soui-sys-resource)
 #target_link_libraries(SoTool utilities soui ${COM_LIBS})
 target_link_libraries(SoTool
-        debug souid optimized soui
+        debug soui3d optimized soui3
         debug utilitiesd optimized utilities
 )
 
-set_target_properties(SoTool PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "stdafx.h")
+#set_target_properties(SoTool PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "stdafx.h")
 set_target_properties(SoTool PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 set_target_properties (SoTool PROPERTIES
