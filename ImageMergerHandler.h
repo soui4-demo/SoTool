@@ -21,6 +21,7 @@ protected:
     void OnModeHorz();
     void OnModeVert();
     void OnSplit();
+	void OnSaveSplits();
 	EVENT_MAP_BEGIN()
 		EVENT_CHECK_SENDER_ROOT(m_pPageRoot)
 		EVENT_NAME_COMMAND(L"btn_save", OnSave)
@@ -29,6 +30,7 @@ protected:
         EVENT_NAME_COMMAND(L"radio_horz", OnModeHorz)
         EVENT_NAME_COMMAND(L"radio_vert", OnModeVert)   
         EVENT_NAME_COMMAND(L"btn_split", OnSplit)     
+		EVENT_NAME_COMMAND(L"btn_save_sub", OnSaveSplits)     
     EVENT_MAP_BREAK()
     
     SOUI::SWindow *m_pPageRoot;

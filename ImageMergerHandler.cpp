@@ -96,11 +96,16 @@ void CImageMergerHandler::OnSplit()
         SMessageBox(GetActiveWindow(),_T("支持切分为2-100子图"),_T("输入错误"),MB_ICONERROR|MB_OK);
     }else
     {
-        CFileDialogEx dlgSave(FALSE,_T("png"),0,6,_T("png files(*.png)\0*.png\0All files (*.*)\0*.*\0\0"));
-        if(dlgSave.DoModal() == IDOK)
-        {
-            m_pImgCanvas->Save2File(S_CT2W(dlgSave.m_szFileName),nNumber);
-        }
+		m_pImgCanvas->Split(nNumber);
     }
+}
+
+void CImageMergerHandler::OnSaveSplits()
+{
+	CFileDialogEx dlgSave(FALSE,_T("png"),0,6,_T("png files(*.png)\0*.png\0All files (*.*)\0*.*\0\0"));
+	if(dlgSave.DoModal() == IDOK)
+	{
+		m_pImgCanvas->SaveSplits(S_CT2W(dlgSave.m_szFileName));
+	}
 }
 

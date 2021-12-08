@@ -20,7 +20,7 @@
       <text pos="[5,{5" name="txt_remarklines">0</text>
 
       <listctrl pos="160,5,-0,-0" name="lst_linecounter_report" itemHeight="25" class="cls_border">
-        <header align="left" itemSwapEnable="1" fixWidth="0" sortHeader="1">
+        <headerstyle align="left" itemSwapEnable="1" fixWidth="0" sortHeader="1">
           <items>
             <item width="100">文件类型</item>
             <item width="60">扩展名</item>
@@ -28,7 +28,7 @@
             <item width="80">空行</item>
             <item width="80">注释行</item>
           </items>
-        </header>
+        </headerstyle>
 
       </listctrl>
     </page>

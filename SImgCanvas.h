@@ -13,7 +13,9 @@ namespace SOUI
         void Clear();
 		BOOL Save2IconFile(LPCWSTR pszFileName);
 		void PushIconSize(int size);
-        BOOL Save2File(LPCWSTR pszFileName,int nSplit=1);
+        BOOL Save2File(LPCWSTR pszFileName);
+		void SaveSplits(LPCWSTR pszFileName);
+		void Split(int n);
         void SetVertical(BOOL bVert);		
 		bool IsCanSave() { return !m_lstImg.IsEmpty(); }
     protected:

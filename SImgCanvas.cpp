@@ -35,28 +35,39 @@ namespace SOUI
             if(m_bVert) 
             {
                 szAll.cy *= m_lstImg.GetCount();
-                ptOffset.y=szBmp.cy;
+				szAll.cy += m_lstImg.GetCount()-1;//interval
+                ptOffset.y=szBmp.cy+1;
             }
             else 
             {
                 szAll.cx *= m_lstImg.GetCount();
-                ptOffset.x = szBmp.cx;
+				szAll.cx += m_lstImg.GetCount()-1;//interval
+                ptOffset.x = szBmp.cx+1;
             }
             
             rcAll.DeflateRect((rcClient.Size()-szAll)/2);
             CRect rcBmp(rcAll.TopLeft(),szBmp);
             
+			SAutoRefPtr<IPen> pen,oldpen;
+			pRT->CreatePen(PS_DASHDOT,RGBA(255,0,255,128),1,&pen);
+			pRT->SelectObject(pen,(IRenderObj**)&oldpen);
             
             SPOSITION pos = m_lstImg.GetHeadPosition();
             while(pos)
             {
                 pBmp = m_lstImg.GetNext(pos);
                 pRT->DrawBitmap(rcBmp,pBmp,0,0);
+				if(m_bVert)
+				{//draw horz line
+					POINT pt[2]={rcBmp.left,rcBmp.bottom,rcBmp.right,rcBmp.bottom};
+					pRT->DrawLines(pt,2);
+				}else
+				{
+					POINT pt[2]={rcBmp.right,rcBmp.top,rcBmp.right,rcBmp.bottom};
+					pRT->DrawLines(pt,2);
+				}
                 rcBmp.OffsetRect(ptOffset);
             }
-            CAutoRefPtr<IPen> pen,oldpen;
-            pRT->CreatePen(PS_DASHDOT,RGBA(0,0,0,128),1,&pen);
-            pRT->SelectObject(pen,(IRenderObj**)&oldpen);
             pRT->DrawRectangle(rcAll);
             pRT->SelectObject(oldpen);
         }
@@ -117,7 +128,7 @@ namespace SOUI
 		m_size.AddTail(size);
 	}
 
-    BOOL SImgCanvas::Save2File(LPCWSTR pszFileName,int nSplit)
+    BOOL SImgCanvas::Save2File(LPCWSTR pszFileName)
     {
         SStringW strDesc = GETRENDERFACTORY->GetImgDecoderFactory()->GetDescription();
         if(strDesc != L"gdi+" || m_lstImg.IsEmpty())
@@ -143,34 +154,7 @@ namespace SOUI
         }
         
         IBitmap * pCache = (IBitmap*)pMemRT->GetCurrentObject(OT_BITMAP);
-        if(nSplit == 1)
-        {
-            return pCache->Save(pszFileName,(const LPVOID)&ImageFormatPNG);
-        }else
-        {
-            CAutoRefPtr<IRenderTarget> pMemRT2;
-            CSize szSub = szBmp;
-            if(m_bVert) szSub.cy/=nSplit;
-            else szSub.cx/=nSplit;
-            
-            GETRENDERFACTORY->CreateRenderTarget(&pMemRT2,szSub.cx,szSub.cy);
-            
-            SStringW strSaveName = pszFileName;
-            int nDot = strSaveName.ReverseFind(L'.');
-            if(nDot != -1) strSaveName = strSaveName.Left(nDot);
-            
-            CRect rcDst(CPoint(),szSub),rcSrc=rcDst;
-            for(int i=0;i< nSplit; i++)
-            {
-                pMemRT2->BitBlt(rcDst,pMemRT,rcSrc.left,rcSrc.top);
-                IBitmap *pCacheSub = (IBitmap*)pMemRT2->GetCurrentObject(OT_BITMAP);
-                pCacheSub->Save(SStringW().Format(L"%s_%d.png",strSaveName,i+1),(const LPVOID)&ImageFormatPNG);
-                pMemRT2->ClearRect(rcDst,0);
-                if(m_bVert) rcSrc.OffsetRect(0,rcSrc.Height());
-                else rcSrc.OffsetRect(rcSrc.Width(),0);
-            }
-            return TRUE;
-        }
+		return pCache->Save(pszFileName,(const LPVOID)&ImageFormatPNG);
     }
 
     void SImgCanvas::SetVertical(BOOL bVert)
@@ -179,4 +163,71 @@ namespace SOUI
         Invalidate();
     }
 
+	void SImgCanvas::Split(int nSplit)
+	{
+		IBitmap *pBmp = m_lstImg.GetHead();
+		CSize szBmp = pBmp->Size();
+		CSize szImg = szBmp;
+		if(m_bVert)
+		{
+			szBmp.cy *= m_lstImg.GetCount();
+		}else
+		{
+			szBmp.cx *= m_lstImg.GetCount();
+		}
+		SAutoRefPtr<IRenderTarget> pMemRT;
+
+		GETRENDERFACTORY->CreateRenderTarget(&pMemRT,szBmp.cx,szBmp.cy);
+		{//render img
+			SPOSITION pos = m_lstImg.GetHeadPosition();
+			CRect rcDst(CPoint(),szImg);
+			while(pos)
+			{
+				IBitmap *pImg = m_lstImg.GetNext(pos);
+				pMemRT->DrawBitmap(rcDst,pImg,0,0);
+				if(m_bVert)
+					rcDst.OffsetRect(0,szImg.cy);
+				else
+					rcDst.OffsetRect(szImg.cx,0);
+				pImg->Release();
+			}
+			m_lstImg.RemoveAll();
+		}
+
+
+		CSize szSub = szBmp;
+		if(m_bVert) szSub.cy/=nSplit;
+		else szSub.cx/=nSplit;
+
+
+		{
+			CRect rcDst(CPoint(),szSub),rcSrc=rcDst;
+			for(int i=0;i< nSplit; i++)
+			{
+				SAutoRefPtr<IRenderTarget> pMemRT2;
+				GETRENDERFACTORY->CreateRenderTarget(&pMemRT2,szSub.cx,szSub.cy);
+				pMemRT2->ClearRect(&rcDst,0);
+				pMemRT2->AlphaBlend(rcDst,pMemRT,rcSrc,255);
+				IBitmap *pCache = (IBitmap*)pMemRT2->GetCurrentObject(OT_BITMAP);
+				m_lstImg.AddTail(pCache);
+				pCache->AddRef();
+				if(m_bVert) rcSrc.OffsetRect(0,szSub.cy);
+				else rcSrc.OffsetRect(szSub.cx,0);
+			}
+		}
+		Invalidate();
+	}
+
+	void SImgCanvas::SaveSplits(LPCWSTR pszFileName)
+	{
+		int i=0;
+		SPOSITION pos = m_lstImg.GetHeadPosition();
+		while(pos)
+		{
+			IBitmap *pBmp = m_lstImg.GetNext(pos);
+			SStringW strName = pszFileName;
+			strName += SStringW().Format(L"_%d.png",i++);
+			pBmp->Save(strName,(const LPVOID)&ImageFormatPNG);
+		}
+	}
 }
