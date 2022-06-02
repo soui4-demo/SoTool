@@ -3,7 +3,7 @@
 
 namespace SOUI
 {
-    SMCTreeCtrl::SMCTreeCtrl():m_nTreeWidth(100),m_nItemWid(-1)
+    SMCTreeCtrl::SMCTreeCtrl():m_nTreeWidth(100)
     {
     }
 
@@ -19,9 +19,13 @@ namespace SOUI
 
     void SMCTreeCtrl::OnNodeFree(LPTVITEM & pItemData)
     {
-        MCITEM *pMcItem = (MCITEM*)pItemData->lParam;
-        delete pMcItem;
-        STreeCtrl::OnNodeFree(pItemData);
+		if (m_pListener)
+		{
+			m_pListener->OnDeleteItem(this, pItemData->hItem, pItemData->lParam);
+		}
+		MCITEM *pMcItem = (MCITEM*)pItemData->lParam;
+		delete pMcItem;
+		delete pItemData;
     }
 
     void SMCTreeCtrl::OnInsertItem(LPTVITEM & pItemData)
@@ -33,14 +37,15 @@ namespace SOUI
 
     int SMCTreeCtrl::CalcItemWidth(const LPTVITEM pItem)
     {
-        if(m_nItemWid<0)
-        {
-            m_nItemWid = m_nTreeWidth;
-            for(UINT i=0;i<m_arrColWidth.GetCount();i++)
-                m_nItemWid += m_arrColWidth[i];
-        }
-        return m_nItemWid;
+		return m_nTreeWidth;
     }
+
+	void SMCTreeCtrl::UpdateContentWidth()
+	{
+		m_nContentWidth = m_nTreeWidth;
+		for(UINT i=0;i<m_arrColWidth.GetCount();i++)
+			m_nContentWidth += m_arrColWidth[i];
+	}
 
     int SMCTreeCtrl::InsertColumn(int iCol,int nWid)
     {
@@ -54,12 +59,8 @@ namespace SOUI
             pMcItem->arrText.InsertAt(iCol,SStringT());
             hItem = GetNextItem(hItem);
         }
-        m_nItemWid = -1;
-        CalcItemWidth(0);
-        
-        CSize szView = GetViewSize();
-        szView.cx = m_nItemWid;
-        SetViewSize(szView);
+        UpdateContentWidth();
+		UpdateScrollBar();
         Invalidate();
         return iCol;
     }
@@ -75,16 +76,11 @@ namespace SOUI
             pMcItem->arrText.RemoveAt(iCol);
             hItem = GetNextItem(hItem);
         }
-        //int nColWid = m_arrColWidth[iCol];
         m_arrColWidth.RemoveAt(iCol);
         
-        m_nItemWid = -1;
-        CalcItemWidth(0);
-
-        CSize szView = GetViewSize();
-        szView.cx = m_nItemWid;
-        SetViewSize(szView);
-        Invalidate();
+		UpdateContentWidth();
+		UpdateScrollBar();
+		Invalidate();
         return TRUE;
     }
 
@@ -135,37 +131,29 @@ namespace SOUI
         if(iCol<0 || iCol>=(int)m_arrColWidth.GetCount()) 
             return FALSE;
         m_arrColWidth.SetAt(iCol,nWid);
-        m_nItemWid = -1;
-        CalcItemWidth(0);
-        
-        CSize szView = GetViewSize();
-        szView.cx = m_nItemWid;
-        SetViewSize(szView);
+		UpdateContentWidth();
+		UpdateScrollBar();
+		Invalidate();
 
-        Invalidate();
         return TRUE;
     }
 
     void SMCTreeCtrl::SetTreeWidth(int nWid)
     {
         m_nTreeWidth = nWid;
-        m_nItemWid = -1;
-        CalcItemWidth(0);
-
-        CSize szView = GetViewSize();
-        szView.cx = m_nItemWid;
-        SetViewSize(szView);
-
-        Invalidate();
+		UpdateContentWidth();
+		UpdateScrollBar();
+		Invalidate();
     }
 
-    void SMCTreeCtrl::SetItemData( HSTREEITEM hItem, LPARAM lParam )
+    BOOL SMCTreeCtrl::SetItemData( HSTREEITEM hItem, LPARAM lParam )
     {
         MCITEM *pData = (MCITEM*)STreeCtrl::GetItemData(hItem);
         pData->lParam = lParam;
+		return TRUE;
     }
 
-    LPARAM SMCTreeCtrl::GetItemData( HSTREEITEM hItem )
+    LPARAM SMCTreeCtrl::GetItemData( HSTREEITEM hItem ) const
     {
         MCITEM *pData = (MCITEM*)STreeCtrl::GetItemData(hItem);
         return pData->lParam;
@@ -176,8 +164,29 @@ namespace SOUI
         MCITEM *pData = new MCITEM;
         pData->arrText.SetCount(m_arrColWidth.GetCount());
         pData->lParam = lParam;
-        return STreeCtrl::InsertItem(pszText,iImage,iSelImage,(LPARAM)pData,hParent,hAfter,bEnsureVisible);
+        HSTREEITEM hRet = STreeCtrl::InsertItem(pszText,iImage,iSelImage,(LPARAM)pData,hParent,hAfter);
+		if(hRet && bEnsureVisible)
+		{
+			STreeCtrl::EnsureVisible(hRet);
+		}
+		return hRet;
     }
+
+	CPoint SMCTreeCtrl::GetViewOrigin() const
+	{
+		CPoint pt;
+		pt.x = m_siHoz.nPos;
+		pt.y = m_siVer.nPos;
+		return pt;
+	}
+
+	CSize SMCTreeCtrl::GetViewSize() const
+	{
+		CSize sz;
+		sz.cx = m_siHoz.nMax;
+		sz.cy = m_siVer.nMax;
+		return sz;
+	}
 
     //////////////////////////////////////////////////////////////////////////
     STreeList::STreeList(void)
@@ -192,24 +201,24 @@ namespace SOUI
     {
     }
 
-    BOOL STreeList::CreateChildren(pugi::xml_node xmlNode)
+    BOOL STreeList::CreateChildren(SXmlNode xmlNode)
     {
-        pugi::xml_node xmlHeader = xmlNode.child(L"headerstyle");
-        pugi::xml_node xmlTreectrl = xmlNode.child(L"treectrlstyle");
+        SXmlNode xmlHeader = xmlNode.child(L"headerstyle");
+        SXmlNode xmlTreectrl = xmlNode.child(L"treectrlstyle");
         if(!xmlHeader || !xmlTreectrl) 
             return FALSE;
         m_pHeader = CreateHeader();
         InsertChild(m_pHeader);
-        m_pHeader->InitFromXml(xmlHeader);
+        m_pHeader->InitFromXml(&xmlHeader);
         m_pHeader->GetEventSet()->subscribeEvent(EventHeaderItemChanging::EventID, Subscriber(&STreeList::OnHeaderSizeChanging,this));
         m_pHeader->GetEventSet()->subscribeEvent(EventHeaderItemSwap::EventID, Subscriber(&STreeList::OnHeaderSwap,this));
 
         m_pTreeCtrl = CreateMcTreeCtrl();
         InsertChild(m_pTreeCtrl);
-        m_pTreeCtrl->InitFromXml(xmlTreectrl);
+        m_pTreeCtrl->InitFromXml(&xmlTreectrl);
         m_pTreeCtrl->GetEventSet()->subscribeEvent(EventScroll::EventID,Subscriber(&STreeList::OnScrollEvent,this));
 
-        m_pHeader->InsertItem(0,m_strTreeLabel.GetText(),m_pTreeCtrl->m_nTreeWidth,ST_NULL,0);
+        m_pHeader->InsertItem(0,m_strTreeLabel.GetText(),m_pTreeCtrl->m_nTreeWidth,HDF_CENTER,0);
         for(UINT i=1;i<m_pHeader->GetItemCount();i++)
         {
             int nWid = m_pHeader->GetItemWidth(i);
@@ -236,12 +245,12 @@ namespace SOUI
 		return TRUE;
     }
 
-    bool STreeList::OnHeaderClick(EventArgs *pEvt)
+    BOOL STreeList::OnHeaderClick(EventArgs *pEvt)
     {
-        return true;
+        return TRUE;
     }
 
-    bool STreeList::OnHeaderSizeChanging(EventArgs *pEvt)
+    BOOL STreeList::OnHeaderSizeChanging(EventArgs *pEvt)
     {
         EventHeaderItemChanging *pEvt2=sobj_cast<EventHeaderItemChanging>(pEvt);
         m_pTreeCtrl->GetEventSet()->setMutedState(true);
@@ -253,12 +262,12 @@ namespace SOUI
         return true;
     }
 
-    bool STreeList::OnHeaderSwap(EventArgs *pEvt)
+    BOOL STreeList::OnHeaderSwap(EventArgs *pEvt)
     {
         return true;
     }
 
-    bool STreeList::OnScrollEvent( EventArgs *pEvt )
+    BOOL STreeList::OnScrollEvent( EventArgs *pEvt )
     {
         EventScroll *pEvt2 = sobj_cast<EventScroll>(pEvt);
         SASSERT(pEvt2);
@@ -276,7 +285,7 @@ namespace SOUI
             m_pHeader->Move(rcHeader);
         }
 
-        return false;
+        return FALSE;
     }
 
     SHeaderCtrl * STreeList::CreateHeader()

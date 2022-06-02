@@ -690,9 +690,9 @@ void CWindowHelperHander::GetExStyleList(LONG lStyle, SArray<StyleInf>& styleLis
 	}
 }
 
-pugi::xml_parse_result LoadXMLFormBuf(pugi::xml_document &doc,LPCWSTR lpContent)
+bool LoadXMLFormBuf(SXmlDoc &doc,LPCWSTR lpContent)
 {
-	return doc.load_buffer(lpContent, wcslen(lpContent) * sizeof(wchar_t), pugi::parse_default, pugi::encoding_utf16);
+	return doc.load_buffer(lpContent, wcslen(lpContent) * sizeof(wchar_t), xml_parse_default, enc_utf16);
 }
 
 void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
@@ -725,15 +725,15 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 		{
 			SWindow *pChild = theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild);
-			pugi::xml_document doc;
+			SXmlDoc doc;
 			SStringW buf;
 			buf.Format(L"<text>%s</text><text>%s</text>",S_CT2W(styleList[i].strStyle),S_CT2W(styleList[i].strDes));
 			LoadXMLFormBuf(doc,buf);
-			pugi::xml_node pChildNode = doc.first_child();
-			pChild->InitFromXml(pChildNode);
+			SXmlNode pChildNode = doc.root().first_child();
+			pChild->InitFromXml(&pChildNode);
 			SWindow *pChild2 = theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild2);
-			pChild2->InitFromXml(pChildNode.next_sibling());
+			pChild2->InitFromXml(&pChildNode.next_sibling());
 		}
 		//pStyleList->RequestRelayout();
 	}
@@ -753,15 +753,15 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 		{
 			SWindow *pChild = theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild);
-			pugi::xml_document doc;
+			SXmlDoc doc;
 			SStringW buf;
 			buf.Format(L"<text>%s</text><text>%s</text>", S_CT2W(styleList[i].strStyle), S_CT2W(styleList[i].strDes));
 			LoadXMLFormBuf(doc, buf);
-			pugi::xml_node pChildNode = doc.first_child();
-			pChild->InitFromXml(pChildNode);
+			SXmlNode pChildNode = doc.root().first_child();
+			pChild->InitFromXml(&pChildNode);
 			SWindow *pChild2 = theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild2);
-			pChild2->InitFromXml(pChildNode.next_sibling());
+			pChild2->InitFromXml(&pChildNode.next_sibling());
 		}
 		//pStyleList->RequestRelayout();
 	}

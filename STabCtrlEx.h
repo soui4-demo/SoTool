@@ -23,9 +23,9 @@ namespace SOUI
     */
     class STabPageEx : public SWindow
     {
-		SOUI_CLASS_NAME(STabPageEx, L"pageex")		
+		DEF_SOBJECT(SWindow, L"pageex")		
     public:
- 		virtual CSize GetDesiredSize(int wid,int hei)override
+ 		virtual SIZE WINAPI GetDesiredSize(int wid,int hei)override
  		{			
  			CSize size = __super::GetDesiredSize(wid,hei);
  			return CSize(size.cx, max(m_iHeight, size.cy));
@@ -116,7 +116,7 @@ namespace SOUI
     */
     class STabCtrlEx : public SWindow
     {  
-        SOUI_CLASS_NAME(STabCtrlEx, L"tabctrlex")
+        DEF_SOBJECT(SWindow, L"tabctrlex")
     protected:
         int m_nHoverTabItem; /**< hover状态item */
         int m_nCurrentPage;  /**< 当前页码      */
@@ -211,7 +211,7 @@ namespace SOUI
         * Describe  获取当前选中 
         */
         BOOL SetItemTitle(int nIndex, LPCTSTR lpszTitle);
-		bool OnScrollviewOrginChanger(EventArgs * ev);
+		BOOL OnScrollviewOrginChanger(EventArgs * ev);
         /**
         * STabCtrl::CreateChildren
         * @brief    创建tab页面
@@ -220,7 +220,7 @@ namespace SOUI
         *
         * Describe  创建tab页面
         */
-        virtual BOOL CreateChildren(pugi::xml_node xmlNode);
+        virtual BOOL CreateChildren(IXmlNode* pNode);
 
         /**
         * STabCtrl::InsertItem
@@ -243,7 +243,7 @@ namespace SOUI
         *
         * Describe  插入tab页面
         */
-        virtual int InsertItem(pugi::xml_node xmlNode,int iInsert=-1,BOOL bLoading=FALSE);
+        virtual int InsertItem(SXmlNode xmlNode,int iInsert=-1,BOOL bLoading=FALSE);
 
         /**
         * STabCtrl::GetItemCount
@@ -368,7 +368,7 @@ namespace SOUI
         */
         virtual void DrawItem(IRenderTarget *pRT,const CRect &rcItem,int iItem,DWORD dwState);
 
-        virtual STabPageEx * CreatePageFromXml(pugi::xml_node xmlPage);
+        virtual STabPageEx * CreatePageFromXml(SXmlNode xmlPage);
         
         /**
         * STabCtrl::OnGetDlgCode
@@ -391,9 +391,9 @@ namespace SOUI
         *
         * Describe  
         */
-        virtual void UpdateChildrenPosition();
+        virtual void WINAPI UpdateChildrenPosition();
 
-        virtual void OnInitFinished(pugi::xml_node xmlNode);
+        virtual void WINAPI OnInitFinished(IXmlNode* xmlNode);
         
         virtual void OnColorize(COLORREF cr);
     protected:

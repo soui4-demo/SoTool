@@ -15,14 +15,14 @@ void C2UnicodeHandler::OnInit( SWindow *pPageRoot )
 {
     CFolderHander::OnInit(pPageRoot->FindChildByName(L"page_2unicode"));
 
-    pugi::xml_document xmlCodeSyntax;
+    SXmlDoc xmlCodeSyntax;
 
     SStringT strSyntax = SApplication::getSingleton().GetAppDir() + _T("\\syntax.xml");
     if(!xmlCodeSyntax.load_file(strSyntax))
     {
         LOADXML(xmlCodeSyntax,_T("xml:syntax"));
     }
-    InitLang(xmlCodeSyntax.child(L"config").child(L"languages"));
+    InitLang(xmlCodeSyntax.root().child(L"config").child(L"languages"));
 }
 
 
@@ -173,7 +173,7 @@ void C2UnicodeHandler::OnGo()
         case 1:nSuccess++;break;
         }
         pProgBar->SetValue(++dwProg);
-        pProgBar->UpdateWindow();
+        pProgBar->Update();
         Sleep(10);
     }
 

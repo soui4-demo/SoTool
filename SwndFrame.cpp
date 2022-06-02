@@ -28,7 +28,7 @@ namespace SOUI
 
     BOOL SwndFrame::Create(HWND hOwner)
     {
-        HWND hWnd=SNativeWnd::Create(_T("SwndFrame"),WS_POPUP,WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE|WS_EX_TRANSPARENT,0,0,0,0,0,0);
+        HWND hWnd=SNativeWnd::CreateNative(_T("SwndFrame"),WS_POPUP,WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE|WS_EX_TRANSPARENT,0,0,0,0,0,0);
         return hWnd!=0;
     }
 
@@ -44,7 +44,7 @@ namespace SOUI
         RECT rcWnd = rc;
         ::InflateRect(&rcWnd,2,2);
         //ShowWindow(SW_HIDE);
-        MoveWindow(&rcWnd);
+        MoveWindow2(&rcWnd);
         ::OffsetRect(&rcWnd,-rcWnd.left,-rcWnd.top);
 
         HDC hdc = GetDC();

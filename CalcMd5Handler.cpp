@@ -32,7 +32,7 @@ void CCalcMd5Handler::OnFileDropdown( HDROP hDrop )
 
 void CCalcMd5Handler::OnDirEnterFinish( EventArgs *pEvt )
 {
-    SWindow *pEdit = sobj_cast<SWindow>(pEvt->sender);
+    SWindow *pEdit = sobj_cast<SWindow>(pEvt->Sender());
     SStringT strFile = pEdit->GetWindowText();
     CalcFileMd5(strFile);
 }
@@ -115,6 +115,6 @@ void CCalcMd5Handler::OnCalcMd5Prog( DWORD dwTotal,DWORD dwProg )
         SASSERT(pProg);
         pProg->SetValue(dwProg);
         STRACEW(L"OnCalcMd5Prog,prog:%d",dwProg);
-        pProg->UpdateWindow();
+        pProg->Update();
     }
 }

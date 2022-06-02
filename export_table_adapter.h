@@ -12,13 +12,13 @@ public:
 	CExportTableTreeViewAdapter() {}
 	~CExportTableTreeViewAdapter() {}
 	
-	virtual void getView(SOUI::HTREEITEM loc, SWindow * pItem, pugi::xml_node xmlTemplate)
+	virtual void getView(HSTREEITEM loc, SWindow * pItem, SXmlNode xmlTemplate)
 	{
 		ItemInfo & ii = m_tree.GetItemRef((HSTREEITEM)loc);
 		int itemType = getViewType(loc);
 		if (pItem->GetChildrenCount() == 0)
 		{
-			pItem->InitFromXml(xmlTemplate.child(L"item_data"));
+			pItem->InitFromXml(&xmlTemplate.child(L"item_data"));
 		}		
 		pItem->FindChildByName(L"txt_fun_name")->SetWindowTextW(ii.data.strName);
 	}		
@@ -76,7 +76,7 @@ public:
 				InsertItem(data);
 				ppdwNames++;
 			}
-			notifyBranchChanged(ITvAdapter::ITEM_ROOT);
+			notifyBranchChanged(ITEM_ROOT);
 		}
 		else if (pNtHeaders->FileHeader.Machine == IMAGE_FILE_MACHINE_IA64 ||
 			pNtHeaders->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64)
@@ -117,44 +117,44 @@ public:
 				InsertItem(data);
 				ppdwNames++;
 			}
-			notifyBranchChanged(ITvAdapter::ITEM_ROOT);
+			notifyBranchChanged(ITEM_ROOT);
 		}
 		return 0;
 	}
 	
-	bool OnGroupPanleClick(EventArgs *pEvt)
+	BOOL OnGroupPanleClick(EventArgs *pEvt)
 	{
-		SItemPanel *pItem = sobj_cast<SItemPanel>(pEvt->sender);
+		SItemPanel *pItem = sobj_cast<SItemPanel>(pEvt->Sender());
 		SToggle *pSwitch = pItem->FindChildByName2<SToggle>(L"tgl_switch");
 
-		SOUI::HTREEITEM loc = (SOUI::HTREEITEM)pItem->GetItemIndex();
-		ExpandItem(loc, ITvAdapter::TVC_TOGGLE);
+		HSTREEITEM loc = (HSTREEITEM)pItem->GetItemIndex();
+		ExpandItem(loc, TVC_TOGGLE);
 		pSwitch->SetToggle(IsItemExpanded(loc));
 		return true;
 	}
 
-	bool OnSwitchClick(EventArgs *pEvt)
+	BOOL OnSwitchClick(EventArgs *pEvt)
 	{
-		SToggle *pToggle = sobj_cast<SToggle>(pEvt->sender);
+		SToggle *pToggle = sobj_cast<SToggle>(pEvt->Sender());
 		SASSERT(pToggle);
 		SItemPanel *pItem = sobj_cast<SItemPanel>(pToggle->GetRoot());
 		SASSERT(pItem);
-		SOUI::HTREEITEM loc = (SOUI::HTREEITEM)pItem->GetItemIndex();
-		ExpandItem(loc, ITvAdapter::TVC_TOGGLE);
+		HSTREEITEM loc = (HSTREEITEM)pItem->GetItemIndex();
+		ExpandItem(loc, TVC_TOGGLE);
 		return true;
 	}
 	
-	virtual int getViewType(SOUI::HTREEITEM hItem) const
+	virtual int WINAPI getViewType(HSTREEITEM hItem) const
 	{
 		return 0;
 	}
 
-	virtual int getViewTypeCount() const
+	virtual int WINAPI getViewTypeCount() const
 	{
 		return 1;
 	}
 
-	bool OnDeleteItem(EventArgs* pEvt)
+	BOOL OnDeleteItem(EventArgs* pEvt)
 	{
 		return true;
 	}

@@ -22,12 +22,12 @@ BOOL CMainDlg::OnInitDialog(HWND hWnd, LPARAM lParam)
 	//HRESULT hr = ;
 	::RegisterDragDrop(m_hWnd, GetDropTarget());
 
-    m_imgMergerHandler.OnInit(this);
-    m_codeLineCounter.OnInit(this);
-    m_2UnicodeHandler.OnInit(this);
-    m_folderScanHandler.OnInit(this);
-    m_calcMd5Handler.OnInit(this);
-	m_windowHelperHander.OnInit(this);
+    m_imgMergerHandler.OnInit(GetRoot());
+    m_codeLineCounter.OnInit(GetRoot());
+    m_2UnicodeHandler.OnInit(GetRoot());
+    m_folderScanHandler.OnInit(GetRoot());
+    m_calcMd5Handler.OnInit(GetRoot());
+	m_windowHelperHander.OnInit(GetRoot());
 	STreeView * pTreeView1 = FindChildByName2<STreeView>("import_table_treeview");
 	STreeView *pTreeView2 = FindChildByName2<STreeView>("export_table_treeview");
 

@@ -38,7 +38,7 @@ void CFolderScanHandler::OnInit(SWindow *pRoot)
     m_pTreelist->GetFolderTreeCtrl()->GetEventSet()->subscribeEvent(EventTCDbClick::EventID,Subscriber(&CFolderScanHandler::OnTreeDbclick,this));
 }
 
-bool CFolderScanHandler::OnTreeDbclick(EventArgs *pEvt)
+BOOL CFolderScanHandler::OnTreeDbclick(EventArgs *pEvt)
 {
     EventTCDbClick *pEvt2 = sobj_cast<EventTCDbClick>(pEvt);
     pEvt2->bCancel = TRUE;

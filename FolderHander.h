@@ -23,7 +23,7 @@ protected:
     void OnBtnFileTypes(SOUI::EventArgs *pEvt);
     void OnDirEnterFinish(SOUI::EventArgs *pEvt);
     
-    void InitLang(pugi::xml_node xmlNode);
+    void InitLang(SXmlNode xmlNode);
     void InitDirTree(HSTREEITEM hTreeItem,const SOUI::SStringW & strPath);
 
     EVENT_MAP_BEGIN()

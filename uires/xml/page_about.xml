@@ -1,4 +1,4 @@
-﻿<include>
+﻿<window size="500,500">
   <text pos="10,10">SOUI小工具 版本</text>
   <text pos="[5,{0">@string/ver</text>
   <text pos="10,[5">版权所有：启程软件</text>
@@ -15,4 +15,4 @@
     <text pos="10,[5">SOUI教程:</text>
     <link href="http://www.cnblogs.com/setoutsoft/" class="cls_btn_weblink">http://www.cnblogs.com/setoutsoft/</link>
   </group>
-</include>
+</window>

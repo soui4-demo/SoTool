@@ -51,7 +51,7 @@ void CCodeLineCounterHandler::OnInit( SWindow *pRoot )
 
     CFolderHander::OnInit(m_pPageRoot->FindChildByName(L"page_dir"));
 
-    pugi::xml_document xmlCodeSyntax;
+    SXmlDoc xmlCodeSyntax;
 
     SStringT strSyntax = SApplication::getSingleton().GetAppDir() + _T("\\syntax.xml");
     if(!xmlCodeSyntax.load_file(strSyntax))
@@ -59,10 +59,10 @@ void CCodeLineCounterHandler::OnInit( SWindow *pRoot )
 		LOADXML(xmlCodeSyntax,_T("xml:syntax"));
     }
     
-    pugi::xml_node xmlNode = xmlCodeSyntax.child(L"config").child(L"filetypes");
+    SXmlNode xmlNode = xmlCodeSyntax.root().child(L"config").child(L"filetypes");
     if(xmlNode)
     {
-        pugi::xml_node xmlType = xmlNode.child(L"filetype");
+        SXmlNode xmlType = xmlNode.child(L"filetype");
         while(xmlType)
         {
             CCodeConfig cfg;
@@ -75,7 +75,7 @@ void CCodeLineCounterHandler::OnInit( SWindow *pRoot )
             xmlType = xmlType.next_sibling(L"filetype");
         }
     }
-    xmlNode = xmlCodeSyntax.child(L"config").child(L"languages");
+    xmlNode = xmlCodeSyntax.root().child(L"config").child(L"languages");
     if(xmlNode)
     {
         InitLang(xmlNode);
@@ -196,7 +196,7 @@ void CCodeLineCounterHandler::OnBtnGo()
 
         dwProg += fi.dwSize;
         pProgBar->SetValue(dwProg);
-        pProgBar->UpdateWindow();
+        pProgBar->Update();
     }
 
     pSplitTree->HidePane(1);

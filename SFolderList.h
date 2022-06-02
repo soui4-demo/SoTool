@@ -6,7 +6,7 @@ namespace SOUI
 {
     class SFolderTreeCtrl : public SMCTreeCtrl
     {
-        SOUI_CLASS_NAME(SFolderTreeCtrl,L"foldertreectrl")
+        DEF_SOBJECT(SMCTreeCtrl,L"foldertreectrl")
         
         struct FILEITEMINFO
         {
@@ -48,7 +48,7 @@ namespace SOUI
         virtual void OnInsertItem(LPTVITEM & pItemData);
         virtual void ItemLayout();
 
-        virtual void OnFinalRelease();
+        virtual void WINAPI OnFinalRelease();
         
     protected:
         SOUI_ATTRS_BEGIN()
@@ -62,7 +62,7 @@ namespace SOUI
     
     class SFolderTreeList : public STreeList
     {
-    SOUI_CLASS_NAME(SFolderTreeList,L"foldertreelist")
+    DEF_SOBJECT(STreeList,L"foldertreelist")
     public:
         SFolderTreeList(void);
         ~SFolderTreeList(void);
@@ -76,10 +76,10 @@ namespace SOUI
         *
         * Describe  列表头单击事件
         */
-        bool            OnHeaderClick(EventArgs *pEvt);
+        BOOL            OnHeaderClick(EventArgs *pEvt);
 
     protected:
-        virtual BOOL CreateChildren(pugi::xml_node xmlNode);
+        virtual BOOL CreateChildren(SXmlNode xmlNode) OVERRIDE;
         virtual SMCTreeCtrl * CreateMcTreeCtrl();
 
         SFolderTreeCtrl::SORTINFO m_si;

@@ -16,7 +16,7 @@ protected:
     virtual void OnFileDropdown(HDROP hDrop);
 
 	void OnGo(SOUI::EventArgs *pEvt);
-	bool OnTreeDbclick(SOUI::EventArgs *pEvt);
+	BOOL OnTreeDbclick(SOUI::EventArgs *pEvt);
 	BOOL EnumFiles(SOUI::SStringT strPath, HSTREEITEM hParent);
     BOOL DoSomething();
 	void InitDir(const SOUI::SStringT & strPath);

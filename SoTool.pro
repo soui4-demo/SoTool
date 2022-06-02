@@ -8,16 +8,16 @@ CONFIG(x64){
 TARGET = $$TARGET"64"
 }
 
-include($$(SOUI3PATH)/demo_com.pri)
+include($$(SOUI4PATH)/demo_com.pri)
 
 CONFIG(debug,debug|release){
-	LIBS += utilitiesd.lib soui3d.lib
+	LIBS += utilities4d.lib soui4d.lib
 }
 else{
-	LIBS += utilities.lib soui3.lib
+	LIBS += utilities4.lib soui4.lib
 }
 
-INCLUDEPATH += $(SOUI3PATH)/controls.extend
+INCLUDEPATH += $(SOUI4PATH)/controls.extend
 
 PRECOMPILED_HEADER = stdafx.h
 

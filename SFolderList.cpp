@@ -330,9 +330,9 @@ namespace SOUI
     {
     }
 
-    BOOL SFolderTreeList::CreateChildren(pugi::xml_node xmlNode)
+    BOOL SFolderTreeList::CreateChildren(SXmlNode pNode)
     {
-        BOOL bRet = STreeList::CreateChildren(xmlNode);
+        BOOL bRet = STreeList::CreateChildren(pNode);
         if(!bRet)
             return FALSE;
         
@@ -344,7 +344,7 @@ namespace SOUI
         return TRUE;
     }
 
-    bool SFolderTreeList::OnHeaderClick(EventArgs *pEvt)
+    BOOL SFolderTreeList::OnHeaderClick(EventArgs *pEvt)
     {
         EventHeaderClick *pEvt2 = sobj_cast<EventHeaderClick>(pEvt);
         

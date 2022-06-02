@@ -4,29 +4,13 @@
 
 namespace SOUI
 {
-    class EventCapture : public TplEventArgs<EventCapture>
+	DEF_EVT_EXT(EventCapture,EVT_EXTERNAL_BEGIN+100,{CPoint pt_;});
+
+	DEF_EVT_EXT(EventCaptureFinish,EVT_EXTERNAL_BEGIN+101,{CPoint pt_;});
+
+	class SCaptureButton : public SWindow
     {
-        SOUI_CLASS_NAME(EventCapture,L"on_capture")
-    public:
-        EventCapture(SWindow *pWnd,CPoint pt):TplEventArgs<EventCapture>(pWnd),pt_(pt){}
-        enum{EventID=EVT_EXTERNAL_BEGIN};
-
-        CPoint pt_;
-    };
-
-    class EventCaptureFinish : public TplEventArgs<EventCaptureFinish>
-    {
-        SOUI_CLASS_NAME(EventCaptureFinish,L"on_capture_finish")
-    public:
-        EventCaptureFinish(SWindow *pWnd,CPoint pt):TplEventArgs<EventCaptureFinish>(pWnd),pt_(pt){}
-        enum{EventID=EVT_EXTERNAL_BEGIN+1};
-
-        CPoint pt_;
-    };
-
-    class SCaptureButton : public SWindow
-    {
-        SOUI_CLASS_NAME(SCaptureButton,L"captureButton")
+        DEF_SOBJECT(SWindow,L"captureButton")
     public:        
         SCaptureButton(void);
         ~SCaptureButton(void);

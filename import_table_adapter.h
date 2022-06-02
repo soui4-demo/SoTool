@@ -14,7 +14,7 @@ public:
 	CImportTableTreeViewAdapter() {}
 	~CImportTableTreeViewAdapter() {}
 	
-	virtual void getView(SOUI::HTREEITEM loc, SWindow * pItem, pugi::xml_node xmlTemplate)
+	virtual void getView(HSTREEITEM loc, SWindow * pItem, SXmlNode xmlTemplate)
 	{
 		ItemInfo & ii = m_tree.GetItemRef((HSTREEITEM)loc);
 		int itemType = getViewType(loc);
@@ -27,7 +27,7 @@ public:
 			case 1:xmlTemplate = xmlTemplate.child(L"item_data");
 				break;
 			}
-			pItem->InitFromXml(xmlTemplate);
+			pItem->InitFromXml(&xmlTemplate);
 		}
 		if (itemType == 0)
 		{			
@@ -44,7 +44,7 @@ public:
 			pItem->FindChildByName(L"txt_idx")->SetWindowTextW(ii.data.strIdx);
 			pItem->FindChildByName(L"txt_fun_name")->SetWindowTextW(ii.data.strName);
 		}
-		SOUI::HTREEITEM hParent;
+		HSTREEITEM hParent;
 		hParent = GetParentItem(loc);
 		int iDep = 0;
 		while (hParent != ITEM_ROOT)
@@ -62,13 +62,13 @@ public:
 		}
 	}
 
-	bool OnItemPanleClick(EventArgs *pEvt)
+	BOOL OnItemPanleClick(EventArgs *pEvt)
 	{
-		SItemPanel *pItemPanel = sobj_cast<SItemPanel>(pEvt->sender);
+		SItemPanel *pItemPanel = sobj_cast<SItemPanel>(pEvt->Sender());
 		SASSERT(pItemPanel);
 		pItemPanel->ModifyState(WndState_Check, 0);
 		STreeView *pTreeView = (STreeView*)pItemPanel->GetContainer();
-		SOUI::HTREEITEM loc = (SOUI::HTREEITEM)pItemPanel->GetItemIndex();
+		HSTREEITEM loc = (HSTREEITEM)pItemPanel->GetItemIndex();
 		if (pTreeView)
 		{
 			pTreeView->SetSel(loc, TRUE);
@@ -165,7 +165,7 @@ public:
 				strFunCount.Format(L"(%d)", iFunCount);
 				m_tree.GetItemRef(hDll).data.strName += strFunCount;
 			}
-			notifyBranchChanged(ITvAdapter::ITEM_ROOT);
+			notifyBranchChanged(ITEM_ROOT);
 		}
 		else if (pNtHeaders->FileHeader.Machine == IMAGE_FILE_MACHINE_IA64 ||
 			pNtHeaders->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64)
@@ -241,7 +241,7 @@ public:
 				strFunCount.Format(L"(%d)", iFunCount);
 				m_tree.GetItemRef(hDll).data.strName += strFunCount;
 			}
-			notifyBranchChanged(ITvAdapter::ITEM_ROOT);
+			notifyBranchChanged(ITEM_ROOT);
 		}		
 		
 		return 0;
@@ -251,7 +251,7 @@ public:
 	{
 		if (pItem)
 		{
-			SOUI::HTREEITEM loc = (SOUI::HTREEITEM)pItem->GetItemIndex();
+			HSTREEITEM loc = (HSTREEITEM)pItem->GetItemIndex();
 			ItemInfo & ii = m_tree.GetItemRef((HSTREEITEM)loc);
 			if (ii.data.bGroup)
 			{
@@ -263,15 +263,15 @@ public:
 				{
 				case 1:  //添加分组
 				{
-					SOUI::HTREEITEM hParent = GetParentItem(loc);					
+					HSTREEITEM hParent = GetParentItem(loc);					
 					data.bGroup = true;
 					data.strName = L"添加测试组";
-					SOUI::HTREEITEM hItem=InsertItem(data,hParent,loc);
+					HSTREEITEM hItem=InsertItem(data,hParent,loc);
 					notifyBranchChanged(hParent);
 				}break;
 				case 2:  //删除分组
 				{
-					SOUI::HTREEITEM hParent = GetParentItem(loc);
+					HSTREEITEM hParent = GetParentItem(loc);
 					DeleteItem(loc);
 					notifyBranchChanged(hParent);
 				}
@@ -281,7 +281,7 @@ public:
 					data.bGroup = false;
 					data.strIdx = L"9527";
 					data.strName = L"添加测试子项";
-					SOUI::HTREEITEM hItem = InsertItem(data, loc);
+					HSTREEITEM hItem = InsertItem(data, loc);
 					notifyBranchChanged(loc);
 				}
 				break;
@@ -290,7 +290,7 @@ public:
 					data.bGroup = true;
 					data.strIdx = L"9527";
 					data.strName = L"添加测试子项";
-					SOUI::HTREEITEM hItem = InsertItem(data, loc);
+					HSTREEITEM hItem = InsertItem(data, loc);
 					notifyBranchChanged(loc);
 				}
 				break;
@@ -306,17 +306,17 @@ public:
 				{
 				case 1:
 				{					
-					SOUI::HTREEITEM hParent = GetParentItem(loc);
+					HSTREEITEM hParent = GetParentItem(loc);
 					data.bGroup = false;
 					data.strIdx = L"008";
 					data.strName = L"添加测试子项";
-					SOUI::HTREEITEM hItem = InsertItem(data, hParent, loc);
+					HSTREEITEM hItem = InsertItem(data, hParent, loc);
 					notifyBranchChanged(hParent);
 				}
 				break;
 				case 2:  //删除
 				{
-					SOUI::HTREEITEM hParent = GetParentItem(loc);
+					HSTREEITEM hParent = GetParentItem(loc);
 					DeleteItem(loc);
 					notifyBranchChanged(hParent);
 				}break;
@@ -335,43 +335,43 @@ public:
 				ImportTableItemData data;
 				data.bGroup = true;
 				data.strName = L"空白添加测试组";
-				SOUI::HTREEITEM hItem = InsertItem(data);
+				HSTREEITEM hItem = InsertItem(data);
 				notifyBranchChanged(ITEM_ROOT);
 			}			
 			}
 		}
 	}
 
-	bool OnGroupPanleClick(EventArgs *pEvt)
+	BOOL OnGroupPanleClick(EventArgs *pEvt)
 	{
-		SItemPanel *pItem = sobj_cast<SItemPanel>(pEvt->sender);
+		SItemPanel *pItem = sobj_cast<SItemPanel>(pEvt->Sender());
 		SToggle *pSwitch = pItem->FindChildByName2<SToggle>(L"tgl_switch");
 
-		SOUI::HTREEITEM loc = (SOUI::HTREEITEM)pItem->GetItemIndex();
-		ExpandItem(loc, ITvAdapter::TVC_TOGGLE);
+		HSTREEITEM loc = (HSTREEITEM)pItem->GetItemIndex();
+		ExpandItem(loc, TVC_TOGGLE);
 		pSwitch->SetToggle(IsItemExpanded(loc));
 		return true;
 	}
 
-	bool OnSwitchClick(EventArgs *pEvt)
+	BOOL OnSwitchClick(EventArgs *pEvt)
 	{
-		SToggle *pToggle = sobj_cast<SToggle>(pEvt->sender);
+		SToggle *pToggle = sobj_cast<SToggle>(pEvt->Sender());
 		SASSERT(pToggle);
 		SItemPanel *pItem = sobj_cast<SItemPanel>(pToggle->GetRoot());
 		SASSERT(pItem);
-		SOUI::HTREEITEM loc = (SOUI::HTREEITEM)pItem->GetItemIndex();
-		ExpandItem(loc, ITvAdapter::TVC_TOGGLE);
+		HSTREEITEM loc = (HSTREEITEM)pItem->GetItemIndex();
+		ExpandItem(loc, TVC_TOGGLE);
 		return true;
 	}
 
-	virtual int getViewType(SOUI::HTREEITEM hItem) const
+	virtual int WINAPI getViewType(HSTREEITEM hItem) const
 	{
 		ItemInfo & ii = m_tree.GetItemRef((HSTREEITEM)hItem);
 		if (ii.data.bGroup) return 0;
 		else return 1;
 	}
 	
-	virtual int getViewTypeCount() const
+	virtual int WINAPI getViewTypeCount() const
 	{
 		return 2;
 	}

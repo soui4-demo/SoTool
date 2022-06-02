@@ -6,7 +6,7 @@ namespace SOUI
 {
     class SMCTreeCtrl : public STreeCtrl
     {
-        SOUI_CLASS_NAME(SMCTreeCtrl,L"mctreectrl")
+        DEF_SOBJECT(STreeCtrl,L"mctreectrl")
 
         friend class STreeList;
         struct MCITEM
@@ -23,21 +23,24 @@ namespace SOUI
         void SetTreeWidth(int nWid);
         BOOL DeleteColumn(int iCol);
         BOOL SetItemText(HSTREEITEM hItem,int iCol,const SStringT strText);
+		CPoint GetViewOrigin() const;
+		CSize GetViewSize() const;
 
-        void SetItemData(HSTREEITEM hItem, LPARAM lParam);
-        LPARAM GetItemData(HSTREEITEM hItem);
+		STDMETHOD_(LPARAM, GetItemData)(THIS_ HSTREEITEM hItem) SCONST OVERRIDE;
+		STDMETHOD_(BOOL, SetItemData)(THIS_ HSTREEITEM hItem, LPARAM lParam) OVERRIDE;
 
         HSTREEITEM InsertItem(LPCTSTR pszText,int iImage,int iSelImage,LPARAM lParam,HSTREEITEM hParent=STVI_ROOT,HSTREEITEM hAfter = STVI_LAST,BOOL bEnsureVisible=FALSE);
     protected:
         virtual void DrawItem(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem);
         virtual void DrawTreeItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
         virtual void DrawListItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
+		virtual void OnInsertItem(LPTVITEM & pItemData);
         
-        virtual void OnNodeFree(LPTVITEM & pItemData);
-        virtual void OnInsertItem(LPTVITEM & pItemData);
-        virtual int CalcItemWidth(const LPTVITEM pItem);
-        
-        virtual void OnFinalRelease();
+        virtual void OnNodeFree(LPTVITEM & pItemData) OVERRIDE;
+        virtual int CalcItemWidth(const LPTVITEM pItem) OVERRIDE;
+		virtual void UpdateContentWidth() OVERRIDE;
+
+        virtual void WINAPI OnFinalRelease();
     protected:
         SOUI_ATTRS_BEGIN()
             ATTR_INT(L"treeWidth",m_nTreeWidth,FALSE)
@@ -45,12 +48,11 @@ namespace SOUI
 
         SArray<int> m_arrColWidth;
         int         m_nTreeWidth;
-        int         m_nItemWid;
     };
     
     class STreeList : public SWindow
     {
-    SOUI_CLASS_NAME(STreeList,L"treelist")
+    DEF_SOBJECT(SWindow,L"treelist")
     public:
         STreeList(void);
         ~STreeList(void);
@@ -65,7 +67,7 @@ namespace SOUI
         *
         * Describe  列表头单击事件
         */
-        bool            OnHeaderClick(EventArgs *pEvt);
+        BOOL            OnHeaderClick(EventArgs *pEvt);
         /**
         * SListCtrl::OnHeaderSizeChanging
         * @brief    列表头大小改变
@@ -73,7 +75,7 @@ namespace SOUI
         *
         * Describe  列表头大小改变
         */
-        bool            OnHeaderSizeChanging(EventArgs *pEvt);
+        BOOL            OnHeaderSizeChanging(EventArgs *pEvt);
         /**
         * SListCtrl::OnHeaderSwap
         * @brief    列表头交换
@@ -81,12 +83,12 @@ namespace SOUI
         *
         * Describe  列表头交换
         */
-        bool            OnHeaderSwap(EventArgs *pEvt);
+        BOOL            OnHeaderSwap(EventArgs *pEvt);
 
-        bool            OnScrollEvent(EventArgs *pEvt);
+        BOOL            OnScrollEvent(EventArgs *pEvt);
     protected:
-        virtual BOOL CreateChildren(pugi::xml_node xmlNode);
-        virtual BOOL OnRelayout(const CRect &rcWnd);
+        virtual BOOL CreateChildren(SXmlNode pNode) OVERRIDE;
+        virtual BOOL OnRelayout(const CRect &rcWnd) OVERRIDE;
         virtual SHeaderCtrl * CreateHeader();
         virtual SMCTreeCtrl * CreateMcTreeCtrl();
 

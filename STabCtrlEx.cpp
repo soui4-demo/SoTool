@@ -276,7 +276,7 @@ namespace SOUI
 		return FALSE;
 	}
 
-	bool STabCtrlEx::OnScrollviewOrginChanger(EventArgs *e)
+	BOOL STabCtrlEx::OnScrollviewOrginChanger(EventArgs *e)
 	{
 		EventScrollViewOriginChanged *ev = static_cast<EventScrollViewOriginChanged*>(e);
 		//视图滚动方向
@@ -312,15 +312,16 @@ namespace SOUI
 		return true;
 	}
 
-	BOOL STabCtrlEx::CreateChildren(pugi::xml_node xmlNode)
+	BOOL STabCtrlEx::CreateChildren(IXmlNode* pNode)
 	{
+		SXmlNode xmlNode(pNode);
 		m_pItemPanel = (SScrollView *)SApplication::getSingleton().CreateWindowByName(SScrollView::GetClassName());
 		SASSERT(m_pItemPanel);
 		InsertChild(m_pItemPanel);
-		pugi::xml_node socrollviewStyle = xmlNode.child(L"socrollviewStyle");
+		SXmlNode socrollviewStyle = xmlNode.child(L"socrollviewStyle");
 		if (socrollviewStyle)
 		{
-			m_pItemPanel->InitFromXml(socrollviewStyle);
+			m_pItemPanel->InitFromXml(&socrollviewStyle);
 		}
 		else m_pItemPanel->SSendMessage(WM_CREATE);//如果没有设置socrollviewStyle则必须手动发送一次CREATE消息，否则滚动条无法正常初使化
 		//自适应内容
@@ -331,7 +332,7 @@ namespace SOUI
 		xmlNode = xmlNode.child(L"pages");
 		if (xmlNode)
 		{
-			for (pugi::xml_node xmlChild = xmlNode.first_child(); xmlChild; xmlChild = xmlChild.next_sibling())
+			for (SXmlNode xmlChild = xmlNode.first_child(); xmlChild; xmlChild = xmlChild.next_sibling())
 			{
 				InsertItem(xmlChild, -1, TRUE);
 			}
@@ -347,7 +348,7 @@ namespace SOUI
 		return TRUE;
 	}
 
-	STabPageEx * STabCtrlEx::CreatePageFromXml(pugi::xml_node xmlPage)
+	STabPageEx * STabCtrlEx::CreatePageFromXml(SXmlNode xmlPage)
 	{
 		if (wcscmp(xmlPage.name(), STabPageEx::GetClassName()) != 0) return NULL;
 		return new STabPageEx();//(STabPageEx *)SApplication::getSingleton().CreateWindowByName(STabPageEx::GetClassName());
@@ -360,13 +361,13 @@ namespace SOUI
 		return InsertItem(xmlDoc.first_child(), iInsert);
 	}
 
-	int STabCtrlEx::InsertItem(pugi::xml_node xmlNode, int iInsert/*=-1*/, BOOL bLoading/*=FALSE*/)
+	int STabCtrlEx::InsertItem(SXmlNode xmlNode, int iInsert/*=-1*/, BOOL bLoading/*=FALSE*/)
 	{
 		STabPageEx *pChild = CreatePageFromXml(xmlNode);
 		if (!pChild) return -1;
 
 		m_pItemPanel->InsertChild(pChild);
-		pChild->InitFromXml(xmlNode);
+		pChild->InitFromXml(&xmlNode);
 		pChild->SetVisible(TRUE);
 		if (iInsert == -1)
 			iInsert = m_lstPages.GetCount();
@@ -518,7 +519,7 @@ namespace SOUI
 		return -1;
 	}
 
-	void STabCtrlEx::OnInitFinished(pugi::xml_node xmlNode)
+	void STabCtrlEx::OnInitFinished(IXmlNode* xmlNode)
 	{
 		if (m_pSkinTab)
 		{

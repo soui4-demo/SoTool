@@ -43,7 +43,7 @@ void CFolderHander::OnInit( SWindow *pFolderRoot )
 
 void CFolderHander::OnDirEnterFinish( EventArgs *pEvt )
 {
-    SEdit *pEdit = sobj_cast<SEdit>(pEvt->sender);
+    SEdit *pEdit = sobj_cast<SEdit>(pEvt->Sender());
     SStringT strDir = pEdit->GetWindowText();
     InitDir(S_CT2W(strDir),TRUE);
 }
@@ -93,7 +93,7 @@ void CFolderHander::InitDirTree(HSTREEITEM hTreeItem,const SStringW & strPath)
 
 void CFolderHander::OnBtnFileTypes(EventArgs *pEvt)
 {
-    SWindow *pBtn = sobj_cast<SWindow>(pEvt->sender);
+    SWindow *pBtn = sobj_cast<SWindow>(pEvt->Sender());
     CRect rcBtn = pBtn->GetWindowRect();
     HWND hWnd = pBtn->GetContainer()->GetHostHwnd();
     ::ClientToScreen(hWnd,(LPPOINT)&rcBtn);
@@ -123,9 +123,9 @@ void CFolderHander::OnBtnFileTypes(EventArgs *pEvt)
     }
 }
 
-void CFolderHander::InitLang( pugi::xml_node xmlNode )
+void CFolderHander::InitLang( SXmlNode xmlNode )
 {
-    pugi::xml_node xmlLang = xmlNode.child(L"language");
+    SXmlNode xmlLang = xmlNode.child(L"language");
     while(xmlLang)
     {
         LANGEXTS langExts;

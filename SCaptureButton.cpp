@@ -23,7 +23,8 @@ namespace SOUI
     void SCaptureButton::OnLButtonUp( UINT nFlags, CPoint point )
     {
         SWindow::OnLButtonUp(nFlags,point);
-        EventCaptureFinish evt(this,point);
+        EventCaptureFinish evt(this);
+		evt.pt_ = point;
         FireEvent(evt);
     }
 
@@ -31,7 +32,8 @@ namespace SOUI
     {
         if(IsChecked())
         {
-            EventCapture evt(this,point);
+            EventCapture evt(this);
+			evt.pt_ = point;
             FireEvent(evt);
         }
     }

@@ -6,11 +6,15 @@
 #include "com-cfg.h"
 #include "SCaptureButton.h"
 #include "STabCtrlEx.h"
+#include <SouiFactory.h>
 
 //从PE文件加载，注意从文件加载路径位置
 #define RES_TYPE 1
 //#define RES_TYPE 0   //从文件中加载资源
 // #define RES_TYPE 1  //从PE资源中加载UI资源
+
+#define INIT_R_DATA
+#include "res/resource.h"
 
 #ifdef _DEBUG
 #define SYS_NAMED_RESOURCE _T("soui-sys-resourced.dll")
@@ -22,7 +26,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 {
     HRESULT hRes = OleInitialize(NULL);
     SASSERT(SUCCEEDED(hRes));
-
+	SouiFactory souiFac;
     int nRet = 0;
     
     SComMgr *pComMgr = new SComMgr(_T("imgdecoder-gdip"));
@@ -49,7 +53,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
         if(hSysResource)
         {
             CAutoRefPtr<IResProvider> sysSesProvider;
-            CreateResProvider(RES_PE,(IObjRef**)&sysSesProvider);
+            souiFac.CreateResProvider(RES_PE,(IObjRef**)&sysSesProvider);
             sysSesProvider->Init((WPARAM)hSysResource,0);
             theApp->LoadSystemNamedResource(sysSesProvider);
         }
@@ -68,7 +72,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
             return 1;
         }
 #else 
-        CreateResProvider(RES_PE, (IObjRef**)&pResProvider);
+        souiFac.CreateResProvider(RES_PE, (IObjRef**)&pResProvider);
         pResProvider->Init((WPARAM)hInstance, 0);
 #endif
 
