@@ -44,8 +44,8 @@ namespace SOUI
         
         virtual void DrawTreeItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
         virtual void DrawListItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
-        virtual void OnNodeFree(LPTVITEM & pItemData);
-        virtual void OnInsertItem(LPTVITEM & pItemData);
+        virtual void OnNodeFree(LPTVITEM & pItemData) override;
+        virtual void OnInsertItem(LPTVITEM & pItemData) override;
         virtual void ItemLayout();
 
         virtual void WINAPI OnFinalRelease();

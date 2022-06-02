@@ -34,9 +34,9 @@ namespace SOUI
         virtual void DrawItem(IRenderTarget *pRT, const CRect & rc, HSTREEITEM hItem);
         virtual void DrawTreeItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
         virtual void DrawListItem(IRenderTarget *pRT, CRect & rc,HSTREEITEM hItem);
-		virtual void OnInsertItem(LPTVITEM & pItemData);
         
         virtual void OnNodeFree(LPTVITEM & pItemData) OVERRIDE;
+        virtual void OnInsertItem(LPTVITEM & pItemData) OVERRIDE;
         virtual int CalcItemWidth(const LPTVITEM pItem) OVERRIDE;
 		virtual void UpdateContentWidth() OVERRIDE;
 

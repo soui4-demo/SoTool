@@ -33,6 +33,10 @@ namespace SOUI
         MCITEM *pMcItem = new MCITEM;
         pMcItem->arrText.SetCount(m_arrColWidth.GetCount());
         pItemData->lParam = (LPARAM)pMcItem;
+		if (m_pListener)
+		{
+			m_pListener->OnInsertItem(this, pItemData->hItem);
+		}
     }
 
     int SMCTreeCtrl::CalcItemWidth(const LPTVITEM pItem)

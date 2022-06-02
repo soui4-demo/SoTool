@@ -90,7 +90,7 @@ namespace SOUI
     void SFolderTreeCtrl::DrawTreeItem(IRenderTarget *pRT, CRect & rc, HSTREEITEM hItem)
     {    
         BOOL     bTextColorChanged = FALSE;;
-        COLORREF crOldText=RGB(0xFF,0xFF,0xFF);
+        COLORREF crOldText=RGBA(0xFF,0xFF,0xFF,0xFF);
         CRect rcItemBg;
         LPTVITEM pItem=CSTree<LPTVITEM>::GetItem(hItem);
 
@@ -143,10 +143,6 @@ namespace SOUI
         if (STVIMask_Icon == (m_uItemMask & STVIMask_Icon) &&
             (pItem->nSelectedImage != -1 || pItem->nImage != -1))
         {
-//             if (pItem->nSelectedImage != -1 && hItem == m_hSelItem)
-//                 m_pIconSkin->Draw(pRT, m_rcIcon, pItem->nSelectedImage);
-//             else 
-//                 m_pIconSkin->Draw(pRT, m_rcIcon, pItem->nImage);
             int iImage = (pItem->nSelectedImage != -1 && hItem == m_hSelItem)?pItem->nSelectedImage:pItem->nImage;
             HDC hdc = pRT->GetDC(0);
             ALPHAINFO ai;
@@ -163,7 +159,7 @@ namespace SOUI
         if (bTextColorChanged)
             pRT->SetTextColor(crOldText);
 
-        pRT->OffsetViewportOrg(-rc.left  - pItem->nLevel * m_nIndent,-rc.top);
+        pRT->OffsetViewportOrg(-(rc.left  + pItem->nLevel * m_nIndent),-rc.top);
     }
 
     
