@@ -53,7 +53,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
         if(hSysResource)
         {
             CAutoRefPtr<IResProvider> sysSesProvider;
-            souiFac.CreateResProvider(RES_PE,(IObjRef**)&sysSesProvider);
+            sysSesProvider.Attach(souiFac.CreateResProvider(RES_PE));
             sysSesProvider->Init((WPARAM)hSysResource,0);
             theApp->LoadSystemNamedResource(sysSesProvider);
         }
@@ -65,14 +65,14 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
         strPath += _T("\\..\\demos\\SoTool");
         SetCurrentDirectory(strPath);
 		
-        CreateResProvider(RES_FILE, (IObjRef**)&pResProvider);
+		pResProvider.Attach(souiFac.CreateResProvider(RES_FILE));
         if (!pResProvider->Init((LPARAM)_T("uires"), 0))
         {
             SASSERT(0);
             return 1;
         }
 #else 
-        souiFac.CreateResProvider(RES_PE, (IObjRef**)&pResProvider);
+		pResProvider.Attach(souiFac.CreateResProvider(RES_PE));
         pResProvider->Init((WPARAM)hInstance, 0);
 #endif
 

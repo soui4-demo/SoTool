@@ -723,7 +723,7 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 		SApplication *theApp = SApplication::getSingletonPtr();
 		for (int i = 0; i < styleList.GetCount(); i++)
 		{
-			SWindow *pChild = theApp->CreateWindowByName(L"text");
+			SWindow *pChild = (SWindow*)theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild);
 			SXmlDoc doc;
 			SStringW buf;
@@ -731,7 +731,7 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 			LoadXMLFormBuf(doc,buf);
 			SXmlNode pChildNode = doc.root().first_child();
 			pChild->InitFromXml(&pChildNode);
-			SWindow *pChild2 = theApp->CreateWindowByName(L"text");
+			SWindow *pChild2 = (SWindow*)theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild2);
 			pChild2->InitFromXml(&pChildNode.next_sibling());
 		}
@@ -751,7 +751,7 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 		SApplication *theApp = SApplication::getSingletonPtr();
 		for (int i = 0; i < styleList.GetCount(); i++)
 		{
-			SWindow *pChild = theApp->CreateWindowByName(L"text");
+			SWindow *pChild = (SWindow*)theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild);
 			SXmlDoc doc;
 			SStringW buf;
@@ -759,7 +759,7 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 			LoadXMLFormBuf(doc, buf);
 			SXmlNode pChildNode = doc.root().first_child();
 			pChild->InitFromXml(&pChildNode);
-			SWindow *pChild2 = theApp->CreateWindowByName(L"text");
+			SWindow *pChild2 = (SWindow*)theApp->CreateWindowByName(L"text");
 			pStyleList->InsertChild(pChild2);
 			pChild2->InitFromXml(&pChildNode.next_sibling());
 		}

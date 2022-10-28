@@ -17,6 +17,8 @@ else{
 	LIBS += utilities4.lib soui4.lib
 }
 
+DEFINES += _CRT_SECURE_NO_WARNINGS
+
 INCLUDEPATH += $(SOUI4PATH)/controls.extend
 
 PRECOMPILED_HEADER = stdafx.h
