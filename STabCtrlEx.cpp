@@ -538,7 +538,7 @@ namespace SOUI
 		for (int i = 0; i < m_lstPages.GetCount(); i++)
 		{
 			pLastPage = m_lstPages[i];
-			itemsize = m_lstPages[i]->GetDesiredSize(rcPage.Width(),rcPage.Height());
+			m_lstPages[i]->GetDesiredSize(&itemsize,rcPage.Width(),rcPage.Height());
 			m_lstPages[i]->SetHeight(itemsize.cy);
 		}
 		//最后一页内容太少

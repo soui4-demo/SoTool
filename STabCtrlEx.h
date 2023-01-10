@@ -25,9 +25,9 @@ namespace SOUI
     {
 		DEF_SOBJECT(SWindow, L"pageex")		
     public:
- 		virtual SIZE WINAPI GetDesiredSize(int wid,int hei)override
+ 		virtual SIZE MeasureContent(int wid,int hei)override
  		{			
- 			CSize size = __super::GetDesiredSize(wid,hei);
+ 			CSize size = __super::MeasureContent(wid,hei);
  			return CSize(size.cx, max(m_iHeight, size.cy));
  		}
         /**
