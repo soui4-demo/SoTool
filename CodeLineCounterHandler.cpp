@@ -222,5 +222,6 @@ void CCodeLineCounterHandler::OnBtnGo()
         plstReport->SetSubItemText(i,3,SStringT().Format(_T("%d"),lineInfo.nBlankLines));
         plstReport->SetSubItemText(i,4,SStringT().Format(_T("%d"),lineInfo.nRemarkLines));
     }
+	plstReport->Update();
 }
 
