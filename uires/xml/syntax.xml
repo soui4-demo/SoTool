@@ -9,9 +9,8 @@
     <filetype type="CC源文件" ext="cc" singleLineRemark="//" multiLinesRemarkBegin="/*" multiLinesRemarkEnd="*/"/>
     <filetype type="资源文件" ext="rc" singleLineRemark="//" multiLinesRemarkBegin="/*" multiLinesRemarkEnd="*/"/>
     <filetype type="java源文件" ext="java" singleLineRemark="//" multiLinesRemarkBegin="/*" multiLinesRemarkEnd="*/"/>
-
+    <filetype type="JS源文件" ext="js" singleLineRemark="//" multiLinesRemarkBegin="/*" multiLinesRemarkEnd="*/"/>
     <filetype type="XML文件" ext="xml" singleLineRemark="" multiLinesRemarkBegin="&lt;!--" multiLinesRemarkEnd="--&gt;"/>
-
     <filetype type="LUA文件" ext="lua" singleLineRemark="--" multiLinesRemarkBegin="--[[" multiLinesRemarkEnd="]]"/>
   </filetypes>
 
@@ -20,6 +19,6 @@
     <language name="XML" exts="xml"/>
     <language name="LUA" exts="lua"/>
     <language name="java" exts="java" />
-
+    <language name="js" exts="js" />
   </languages>
 </config>
