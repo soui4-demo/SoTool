@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				Optimization="2"
+				Optimization="0"
 				AdditionalIncludeDirectories=".,.,$(SOUI4PATH)/utilities/include,$(SOUI4PATH)/soui/include,$(SOUI4PATH)/components,$(SOUI4PATH)/config,$(SOUI4PATH)/controls.extend,..\soui4.git\tools\mkspecs\win32-msvc2008"
 				PreprocessorDefinitions="_WINDOWS;UNICODE;WIN32;QT_NO_DYNAMIC_CAST;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				GeneratePreprocessedFile="0"

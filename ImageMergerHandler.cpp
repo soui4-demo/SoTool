@@ -2,7 +2,9 @@
 #include "ImageMergerHandler.h"
 #include "droptarget.h"
 #include "../../controls.extend/FileHelper.h"
-
+#include <string>
+#include <vector>
+#include <algorithm>
 
 CImageMergerHandler::CImageMergerHandler(void):m_pPageRoot(NULL),m_pImgCanvas(NULL)
 {
@@ -12,19 +14,28 @@ CImageMergerHandler::~CImageMergerHandler(void)
 {
 }
 
+static int SortCmp(const std::wstring &a, const std::wstring &b){
+	return a < b;
+}
+
 void CImageMergerHandler::OnFileDropdown( HDROP hdrop )
 {
     bool success = false;
     WCHAR filename[MAX_PATH];
     UINT files = DragQueryFile(hdrop,(UINT)-1,NULL,0);
+	std::vector<std::wstring> fileList;
     for(UINT i=0;i<files;i++)
     {
         success=!!DragQueryFileW(hdrop, i, filename, MAX_PATH);
         if(success)
         {
-            AddFile(filename);
+			fileList.push_back(filename);
         }
     }
+	std::sort(fileList.begin(),fileList.end(),SortCmp);
+	for(UINT i=0;i<fileList.size();i++){
+		AddFile(fileList[i].c_str());
+	}
 
 }
 
