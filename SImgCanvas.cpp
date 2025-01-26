@@ -118,7 +118,7 @@ namespace SOUI
 				iconfile.AddBitmapToIco(pBmp);
 			}
 		}
-		return iconfile.SaveIconFile(pszFileName);
+		return iconfile.SaveIconFile(S_CW2T(pszFileName));
 	}
 
 	void SImgCanvas::PushIconSize(int size)

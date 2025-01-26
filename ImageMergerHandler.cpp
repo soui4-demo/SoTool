@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "ImageMergerHandler.h"
 #include "droptarget.h"
-#include "../../controls.extend/FileHelper.h"
+#include <FileHelper.h>
 #include <string>
 #include <vector>
 #include <algorithm>

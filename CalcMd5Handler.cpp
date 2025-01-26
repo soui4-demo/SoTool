@@ -88,9 +88,9 @@ void CCalcMd5Handler::CalcFileMd5( const SStringT &strFileName )
     if(pEditOutput->GetWindowTextLength()!=0)
     {
         pEditOutput->SetSel((UINT)-1);
-        pEditOutput->ReplaceSel(L"\r\n");
+        pEditOutput->ReplaceSel(_T("\r\n"));
     }
-    pEditOutput->ReplaceSel(S_CT2W(strMd5));
+    pEditOutput->ReplaceSel(strMd5);
 }
 
 void CCalcMd5Handler::OnInit( SWindow *pRoot )
@@ -114,7 +114,6 @@ void CCalcMd5Handler::OnCalcMd5Prog( DWORD dwTotal,DWORD dwProg )
         SProgress *pProg = m_pPageRoot->FindChildByName2<SProgress>(L"prog_run");
         SASSERT(pProg);
         pProg->SetValue(dwProg);
-        STRACEW(L"OnCalcMd5Prog,prog:%d",dwProg);
         pProg->Update();
     }
 }

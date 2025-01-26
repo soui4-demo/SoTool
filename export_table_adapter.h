@@ -20,7 +20,7 @@ public:
 		{
 			pItem->InitFromXml(&xmlTemplate.child(L"item_data"));
 		}		
-		pItem->FindChildByName(L"txt_fun_name")->SetWindowTextW(ii.data.strName);
+		pItem->FindChildByName(L"txt_fun_name")->SetWindowText(ii.data.strName);
 	}		
 
 	int Updata(LPBYTE lpBaseAddress)
@@ -72,7 +72,7 @@ public:
 			for (UINT i = 0; i < dwNumOfExports; i++)
 			{
 				char *szFunc = (PSTR)ImageRvaToVa((PIMAGE_NT_HEADERS)pNtHeaders, pDosHeader, (DWORD)*ppdwNames, 0);
-				data.strName = S_CA2W(szFunc);
+				data.strName = S_CA2T(szFunc);
 				InsertItem(data);
 				ppdwNames++;
 			}
@@ -113,7 +113,7 @@ public:
 			for (UINT i = 0; i < dwNumOfExports; i++)
 			{
 				char *szFunc = (PSTR)ImageRvaToVa((PIMAGE_NT_HEADERS)pNtHeaders, pDosHeader, (DWORD)*ppdwNames, 0);
-				data.strName = S_CA2W(szFunc);
+				data.strName = S_CA2T(szFunc);
 				InsertItem(data);
 				ppdwNames++;
 			}

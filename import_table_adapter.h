@@ -40,9 +40,9 @@ public:
 		}
 		else {
 			SWindow * pWnd = pItem->FindChildByName2<SWindow>(L"txt_red");
-			if (pWnd) pWnd->SetWindowText(S_CW2T(ii.data.strName));			
-			pItem->FindChildByName(L"txt_idx")->SetWindowTextW(ii.data.strIdx);
-			pItem->FindChildByName(L"txt_fun_name")->SetWindowTextW(ii.data.strName);
+			if (pWnd) pWnd->SetWindowText(ii.data.strName);			
+			pItem->FindChildByName(L"txt_idx")->SetWindowText(ii.data.strIdx);
+			pItem->FindChildByName(L"txt_fun_name")->SetWindowText(ii.data.strName);
 		}
 		HSTREEITEM hParent;
 		hParent = GetParentItem(loc);
@@ -116,7 +116,7 @@ public:
 			ImportTableItemData data;
 
 			data.bGroup = false;			
-			data.strName = L"32位PE";
+			data.strName = _T("32位PE");
 			InsertItem(data);
 			for (i = 0; memcmp(pImportTable + i, &null_iid, sizeof(null_iid)) != 0; i++)
 			{
@@ -142,8 +142,8 @@ public:
 					if (pThunk[j].u1.AddressOfData & IMAGE_ORDINAL_FLAG32)
 					{
 						data.bGroup = false;
-						data.strIdx.Format(L"%ld", pThunk[j].u1.AddressOfData & 0xffff);
-						data.strName = L"按序号导入";
+						data.strIdx.Format(_T("%ld"), pThunk[j].u1.AddressOfData & 0xffff);
+						data.strName = _T("按序号导入");
 						InsertItem(data, hDll);
 					}
 					else
@@ -155,14 +155,14 @@ public:
 							pThunk[j].u1.AddressOfData,
 							NULL);
 						data.bGroup = false;
-						data.strIdx.Format(L"%ld", pFuncName->Hint);
+						data.strIdx.Format(_T("%ld"), pFuncName->Hint);
 						data.strName = S_CA2T((char*)pFuncName->Name);
 						InsertItem(data, hDll);
 					}
 					iFunCount = j + 1;
 				}
 				SStringT strFunCount;
-				strFunCount.Format(L"(%d)", iFunCount);
+				strFunCount.Format(_T("(%d)"), iFunCount);
 				m_tree.GetItemRef(hDll).data.strName += strFunCount;
 			}
 			notifyBranchChanged(ITEM_ROOT);
@@ -192,7 +192,7 @@ public:
 			//每个元素代表了一个引入的DLL。
 			ImportTableItemData data;
 			data.bGroup = false;
-			data.strName = L"64位PE";
+			data.strName = _T("64位PE");
 			InsertItem(data);
 			for (i = 0; memcmp(pImportTable + i, &null_iid, sizeof(null_iid)) != 0; i++)
 			{
@@ -218,8 +218,8 @@ public:
 					if (pThunk[j].u1.AddressOfData & IMAGE_ORDINAL_FLAG64)
 					{
 						data.bGroup = false;
-						data.strIdx.Format(L"%ld", IMAGE_ORDINAL64(pThunk[j].u1.AddressOfData));
-						data.strName = L"按序号导入";
+						data.strIdx.Format(_T("%ld"), IMAGE_ORDINAL64(pThunk[j].u1.AddressOfData));
+						data.strName = _T("按序号导入");
 						InsertItem(data, hDll);
 					}
 					else
@@ -231,14 +231,14 @@ public:
 							pThunk[j].u1.AddressOfData,
 							NULL);
 						data.bGroup = false;
-						data.strIdx.Format(L"%ld", pFuncName->Hint);
+						data.strIdx.Format(_T("%ld"), pFuncName->Hint);
 						data.strName = S_CA2T((char*)pFuncName->Name);
 						InsertItem(data, hDll);
 					}
 					iFunCount = j + 1;
 				}
 				SStringT strFunCount;
-				strFunCount.Format(L"(%d)", iFunCount);
+				strFunCount.Format(_T("(%d)"), iFunCount);
 				m_tree.GetItemRef(hDll).data.strName += strFunCount;
 			}
 			notifyBranchChanged(ITEM_ROOT);
@@ -265,7 +265,7 @@ public:
 				{
 					HSTREEITEM hParent = GetParentItem(loc);					
 					data.bGroup = true;
-					data.strName = L"添加测试组";
+					data.strName = _T("添加测试组");
 					HSTREEITEM hItem=InsertItem(data,hParent,loc);
 					notifyBranchChanged(hParent);
 				}break;
@@ -279,8 +279,8 @@ public:
 				case 3:  //分组下添加一个子项
 				{									
 					data.bGroup = false;
-					data.strIdx = L"9527";
-					data.strName = L"添加测试子项";
+					data.strIdx = _T("9527");
+					data.strName = _T("添加测试子项");
 					HSTREEITEM hItem = InsertItem(data, loc);
 					notifyBranchChanged(loc);
 				}
@@ -288,8 +288,8 @@ public:
 				case 4:  //分组下添加一个子分组
 				{
 					data.bGroup = true;
-					data.strIdx = L"9527";
-					data.strName = L"添加测试子项";
+					data.strIdx = _T("9527");
+					data.strName = _T("添加测试子项");
 					HSTREEITEM hItem = InsertItem(data, loc);
 					notifyBranchChanged(loc);
 				}
@@ -308,8 +308,8 @@ public:
 				{					
 					HSTREEITEM hParent = GetParentItem(loc);
 					data.bGroup = false;
-					data.strIdx = L"008";
-					data.strName = L"添加测试子项";
+					data.strIdx = _T("008");
+					data.strName = _T("添加测试子项");
 					HSTREEITEM hItem = InsertItem(data, hParent, loc);
 					notifyBranchChanged(hParent);
 				}
@@ -334,7 +334,7 @@ public:
 			{
 				ImportTableItemData data;
 				data.bGroup = true;
-				data.strName = L"空白添加测试组";
+				data.strName = _T("空白添加测试组");
 				HSTREEITEM hItem = InsertItem(data);
 				notifyBranchChanged(ITEM_ROOT);
 			}			

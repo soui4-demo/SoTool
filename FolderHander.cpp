@@ -116,10 +116,10 @@ void CFolderHander::OnBtnFileTypes(EventArgs *pEvt)
         if(pEdit->GetWindowTextLength()!=0)
         {
             pEdit->SetSel((DWORD)-1);
-            pEdit->ReplaceSel(L";");            
+            pEdit->ReplaceSel(_T(";"));            
         }
         pEdit->SetSel((DWORD)-1);
-        pEdit->ReplaceSel(m_lstLangExts[id].strExts);
+        pEdit->ReplaceSel(S_CW2T(m_lstLangExts[id].strExts));
     }
 }
 
