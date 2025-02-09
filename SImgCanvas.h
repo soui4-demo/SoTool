@@ -20,9 +20,11 @@ namespace SOUI
 		bool IsCanSave() { return !m_lstImg.IsEmpty(); }
     protected:
         void OnPaint(IRenderTarget *pRT);
-        
+        void OnRButtonDown(UINT nFlags, CPoint point);
+
 		SOUI_MSG_MAP_BEGIN()
 			MSG_WM_PAINT_EX(OnPaint)
+            MSG_WM_RBUTTONDOWN(OnRButtonDown)
 		SOUI_MSG_MAP_END()
 
 		SList<int>		m_size;

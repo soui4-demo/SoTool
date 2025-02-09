@@ -17,11 +17,7 @@
 #define INIT_R_DATA
 #include "res/resource.h"
 
-#ifdef _DEBUG
-#define SYS_NAMED_RESOURCE _T("soui-sys-resourced.dll")
-#else
 #define SYS_NAMED_RESOURCE _T("soui-sys-resource.dll")
-#endif
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lpstrCmdLine, int /*nCmdShow*/)
 {

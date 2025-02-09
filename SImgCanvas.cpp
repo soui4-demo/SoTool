@@ -73,6 +73,52 @@ namespace SOUI
         }
     }
 
+	void SImgCanvas::OnRButtonDown(UINT nFlags, CPoint point)
+	{
+		__baseCls::OnRButtonDown(nFlags, point);
+		if (m_lstImg.IsEmpty())
+			return;
+		IBitmap* pBmp = m_lstImg.GetHead();
+
+		CRect rcClient = GetClientRect();
+		CSize szBmp(pBmp->Size());
+		CRect rcAll = rcClient;
+		CSize szAll = szBmp;
+
+		CPoint ptOffset;
+		if (m_bVert)
+		{
+			szAll.cy *= m_lstImg.GetCount();
+			szAll.cy += m_lstImg.GetCount() - 1;//interval
+			ptOffset.y = szBmp.cy + 1;
+		}
+		else
+		{
+			szAll.cx *= m_lstImg.GetCount();
+			szAll.cx += m_lstImg.GetCount() - 1;//interval
+			ptOffset.x = szBmp.cx + 1;
+		}
+
+		rcAll.DeflateRect((rcClient.Size() - szAll) / 2);
+		if (rcAll.PtInRect(point)) {
+			point -= rcAll.TopLeft();
+			int iIcon = -1;
+			if (m_bVert) {
+				iIcon = (point.y-1) / (szBmp.cy+1);
+			}
+			else
+				iIcon = (point.x-1) / (szBmp.cx+1);
+			SASSERT(iIcon >= 0 && iIcon < m_lstImg.GetCount());
+			SPOSITION pos = m_lstImg.FindIndex(iIcon);
+			if (pos) {
+				IBitmapPtr bmp = m_lstImg.GetAt(pos);
+				m_lstImg.RemoveAt(pos);
+				bmp->Release();
+			}
+			Invalidate();
+		}
+	}
+
     BOOL SImgCanvas::AddFile(LPCWSTR pszFileName)
     {
         IBitmap *pImg=SResLoadFromFile::LoadImage(S_CW2T(pszFileName));
