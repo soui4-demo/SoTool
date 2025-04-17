@@ -727,7 +727,7 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 			pStyleList->InsertChild(pChild);
 			SXmlDoc doc;
 			SStringW buf;
-			buf.Format(L"<text>%s</text><text>%s</text>",S_CT2W(styleList[i].strStyle),S_CT2W(styleList[i].strDes));
+			buf.Format(L"<text>%s</text><text>%s</text>",S_CT2W(styleList[i].strStyle).c_str(), S_CT2W(styleList[i].strDes).c_str());
 			LoadXMLFormBuf(doc,buf);
 			SXmlNode pChildNode = doc.root().first_child();
 			pChild->InitFromXml(&pChildNode);
@@ -735,7 +735,6 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 			pStyleList->InsertChild(pChild2);
 			pChild2->InitFromXml(&pChildNode.next_sibling());
 		}
-		//pStyleList->RequestRelayout();
 	}
 	GetExStyleList(GetWindowLong(hWnd, GWL_EXSTYLE), styleList);
 	pStyleList = m_HostRoot->FindChildByName(L"wnd_exstyle");
@@ -755,7 +754,7 @@ void CWindowHelperHander::OnEventCaptureHostFinish(EventArgs *pEvt)
 			pStyleList->InsertChild(pChild);
 			SXmlDoc doc;
 			SStringW buf;
-			buf.Format(L"<text>%s</text><text>%s</text>", S_CT2W(styleList[i].strStyle), S_CT2W(styleList[i].strDes));
+			buf.Format(L"<text>%s</text><text>%s</text>", S_CT2W(styleList[i].strStyle).c_str(), S_CT2W(styleList[i].strDes).c_str());
 			LoadXMLFormBuf(doc, buf);
 			SXmlNode pChildNode = doc.root().first_child();
 			pChild->InitFromXml(&pChildNode);

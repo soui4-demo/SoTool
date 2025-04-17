@@ -44,10 +44,14 @@ namespace SOUI
         m_pBgSkin->DrawByIndex(pRT,GetWindowRect(),IsChecked()?1:0);
     }
 
-    CSize SCaptureButton::GetDesiredSize( LPCRECT pRcContainer )
+    void SCaptureButton::GetDesiredSize(SIZE* psz, int nParentWid, int nParentHei)
     {
-        if(!m_pBgSkin) return CSize();
-        return m_pBgSkin->GetSkinSize();
+        if (!m_pBgSkin) {
+			psz->cx = 0;
+			psz->cy = 0;
+			return;
+        }
+        *psz =  m_pBgSkin->GetSkinSize();
     }
 
     BOOL SCaptureButton::IsChecked()

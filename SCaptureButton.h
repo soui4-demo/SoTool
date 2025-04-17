@@ -16,7 +16,7 @@ namespace SOUI
         ~SCaptureButton(void);
 
     protected:
-        virtual CSize GetDesiredSize(LPCRECT pRcContainer);  
+        STDMETHOD_(void, GetDesiredSize)(THIS_ SIZE* psz, int nParentWid, int nParentHei) OVERRIDE;
         
         BOOL IsChecked();      
     protected:
