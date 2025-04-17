@@ -312,9 +312,8 @@ namespace SOUI
 		return true;
 	}
 
-	BOOL STabCtrlEx::CreateChildren(IXmlNode* pNode)
+	BOOL STabCtrlEx::CreateChildren(SXmlNode xmlNode)
 	{
-		SXmlNode xmlNode(pNode);
 		m_pItemPanel = (SScrollView *)SApplication::getSingleton().CreateWindowByName(SScrollView::GetClassName());
 		SASSERT(m_pItemPanel);
 		InsertChild(m_pItemPanel);

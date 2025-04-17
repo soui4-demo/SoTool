@@ -220,7 +220,7 @@ namespace SOUI
         *
         * Describe  创建tab页面
         */
-        virtual BOOL CreateChildren(IXmlNode* pNode);
+        virtual BOOL CreateChildren(SXmlNode xmlNode);
 
         /**
         * STabCtrl::InsertItem
